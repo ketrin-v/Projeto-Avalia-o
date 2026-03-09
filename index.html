@@ -26,21 +26,20 @@
             padding: 2rem 1.5rem 0 1.5rem;
         }
 
-        /* ----- BARRA DE PESQUISA (1/3) ----- */
+        /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas) ----- */
         .search-section {
             width: 100%;
             margin-bottom: 2.5rem;
         }
 
         .search-wrapper {
-            width: 33.333%;           /* exatamente 1/3 da largura disponível */
-            min-width: 240px;          /* não fica muito pequeno em telas estreitas */
+            width: 100%;                /* ocupa toda a extensão horizontal */
             background-color: white;
             border: 2px solid #cbd5e1;
-            border-radius: 48px;       /* retangular com pontas suaves */
+            border-radius: 0;            /* pontas completamente quadradas */
             display: flex;
             align-items: center;
-            padding: 0.6rem 1rem;
+            padding: 0.8rem 1.2rem;
             transition: border 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
@@ -54,7 +53,7 @@
             width: 100%;
             border: none;
             outline: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             padding: 0.2rem 0;
             background: transparent;
         }
@@ -65,7 +64,7 @@
         }
 
         .lupa {
-            margin-right: 0.75rem;
+            margin-right: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -74,8 +73,8 @@
 
         /* desenho vetorial da lupa (ícone simples com CSS) */
         .lupa-svg {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border: 2.5px solid currentColor;
             border-radius: 50%;
             position: relative;
@@ -85,13 +84,13 @@
         .lupa-svg::after {
             content: '';
             position: absolute;
-            bottom: -5px;
-            right: -6px;
-            width: 7px;
+            bottom: -6px;
+            right: -7px;
+            width: 8px;
             height: 2.5px;
             background-color: currentColor;
             transform: rotate(45deg);
-            border-radius: 2px;
+            border-radius: 1px;
         }
 
         /* ----- LINHA "TUDO" COM INTERAÇÃO (QUADRADO AO CLICAR) ----- */
@@ -119,7 +118,7 @@
             outline: 3px solid #2563eb;
             outline-offset: 4px;
             background-color: #eff6ff;
-            border-radius: 2px;
+            border-radius: 0;            /* quadrado sem arredondamento */
         }
 
         /* ----- GRADE DE MATÉRIAS (quadrados) ----- */
@@ -132,7 +131,7 @@
 
         .card-materia {
             background-color: white;
-            border-radius: 18px;
+            border-radius: 0;            /* quadrados sem bordas arredondadas */
             padding: 1.8rem 0.5rem;
             text-align: center;
             font-size: 1.2rem;
@@ -172,9 +171,6 @@
 
         /* responsividade fina */
         @media (max-width: 640px) {
-            .search-wrapper {
-                width: 100%;            /* em telas pequenas ocupa toda largura disponível */
-            }
             .materias-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -188,7 +184,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- BARRA DE PESQUISA 1/3 COM LUPA DESENHADA -->
+        <!-- BARRA DE PESQUISA 100% COM PONTAS QUADRADAS -->
         <div class="search-section">
             <div class="search-wrapper">
                 <span class="lupa" aria-hidden="true">
@@ -254,11 +250,11 @@
                                     <title>${materia} · conteúdos</title>
                                     <style>
                                         body { font-family: system-ui, sans-serif; background: #f1f5f9; margin: 0; padding: 2rem; }
-                                        .card { background: white; max-width: 700px; margin: 0 auto; border-radius: 32px; padding: 2rem; box-shadow: 0 20px 30px -12px #00000020; }
+                                        .card { background: white; max-width: 700px; margin: 0 auto; border-radius: 0; padding: 2rem; box-shadow: 0 20px 30px -12px #00000020; }
                                         h1 { border-bottom: 3px solid #3b82f6; padding-bottom: 0.5rem; color: #0f172a; }
                                         ul { margin-top: 2rem; list-style: none; padding: 0; }
-                                        li { background: #f8fafc; margin: 0.7rem 0; padding: 0.8rem 1.2rem; border-radius: 60px; font-size: 1.2rem; border: 1px solid #cbd5e1; }
-                                        .voltar { display: inline-block; margin-top: 2rem; padding: 0.5rem 1.8rem; background: #1e293b; color: white; border-radius: 40px; text-decoration: none; }
+                                        li { background: #f8fafc; margin: 0.7rem 0; padding: 0.8rem 1.2rem; border-radius: 0; font-size: 1.2rem; border: 1px solid #cbd5e1; }
+                                        .voltar { display: inline-block; margin-top: 2rem; padding: 0.5rem 1.8rem; background: #1e293b; color: white; border-radius: 0; text-decoration: none; }
                                     </style>
                                 </head>
                                 <body>
