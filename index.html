@@ -95,7 +95,7 @@
             border-radius: 1px;
         }
 
-        /* ----- LINHA "TUDO" COM INTERAÇÃO (QUADRADO AO CLICAR) ----- */
+        /* ----- LINHA "TUDO" E "IMAGEM" COM INTERAÇÃO (QUADRADO AO CLICAR) ----- */
         .tudo-linha {
             margin: 1.2rem 0 0.5rem 0;
             font-size: 2rem;
@@ -103,10 +103,11 @@
             letter-spacing: 1px;
             display: flex;
             align-items: center;
-            gap: 0.3rem;
+            gap: 1.5rem;                /* espaço entre as palavras */
+            flex-wrap: wrap;
         }
 
-        .palavra-tudo {
+        .palavra-interativa {
             display: inline-block;
             cursor: pointer;
             color: #0f172a;
@@ -115,8 +116,8 @@
             padding: 0 0.2rem;
         }
 
-        /* classe ativada via JS para simular o quadrado ao redor da palavra */
-        .highlight-tudo {
+        /* classe ativada via JS para simular o quadrado ao redor das palavras */
+        .highlight-palavra {
             outline: 3px solid #2563eb;
             outline-offset: 4px;
             background-color: #eff6ff;
@@ -196,9 +197,10 @@
             </div>
         </div>
 
-        <!-- LINHA "TUDO" (ao clicar, quadrado em volta) -->
+        <!-- LINHA "TUDO" E "IMAGEM" (ao clicar, quadrado em volta) -->
         <div class="tudo-linha">
-            <span class="palavra-tudo" id="palavraTudo">tudo</span>
+            <span class="palavra-interativa" id="palavraTudo">tudo</span>
+            <span class="palavra-interativa" id="palavraImagem">imagem</span>
         </div>
 
         <!-- GRADE DE QUADRADOS (MATÉRIAS) -->
@@ -286,20 +288,17 @@
                 });
             }
 
-            // 2) INTERAÇÃO "TUDO" – ao clicar, adiciona/remove quadrado em volta
-            const palavraTudo = document.getElementById('palavraTudo');
-            if (palavraTudo) {
-                palavraTudo.addEventListener('click', function() {
-                    // alterna a classe que desenha o quadrado
-                    this.classList.toggle('highlight-tudo');
-
-                    // (opcional) remove após um tempo se quiser, mas mantemos o toggle.
-                    // Se quiser que suma sozinho após alguns segundos, descomente abaixo:
-                    // setTimeout(() => {
-                    //     this.classList.remove('highlight-tudo');
-                    // }, 2000);
+            // 2) INTERAÇÃO "TUDO" e "IMAGEM" – ao clicar, adiciona/remove quadrado em volta
+            const palavras = document.querySelectorAll('.palavra-interativa');
+            palavras.forEach(palavra => {
+                palavra.addEventListener('click', function() {
+                    // Remove o highlight de todas as palavras primeiro (opcional - se quiser apenas uma por vez)
+                    // palavras.forEach(p => p.classList.remove('highlight-palavra'));
+                    
+                    // Alterna a classe na palavra clicada
+                    this.classList.toggle('highlight-palavra');
                 });
-            }
+            });
 
             // 3) bônus: ao digitar na pesquisa, nada especial (só UI)
         })();
