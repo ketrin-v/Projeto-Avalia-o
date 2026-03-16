@@ -162,47 +162,6 @@
             transform: scale(0.98);
         }
 
-        /* ----- CONTEÚDO EXTRA PARA DEIXAR A PÁGINA MAIS LONGA ----- */
-        .conteudo-extra {
-            margin: 3rem 0 2rem 0;
-            padding: 1.5rem;
-            background-color: #f1f5f9;
-            border: 2px solid #cbd5e1;
-            border-radius: 0;
-        }
-
-        .conteudo-extra h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #0f172a;
-        }
-
-        .conteudo-extra p {
-            margin-bottom: 0.8rem;
-            color: #334155;
-            line-height: 1.6;
-        }
-
-        .destaques-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .destaque-item {
-            background-color: white;
-            padding: 1.5rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0;
-            text-align: center;
-        }
-
-        .destaque-item h3 {
-            margin-bottom: 0.8rem;
-            color: #0f172a;
-        }
-
         /* Espaçador de 1cm abaixo dos quadros */
         .espacador-1cm {
             height: 37.8px;              /* 1cm aproximado */
@@ -210,7 +169,7 @@
             background-color: transparent;
         }
 
-        /* ----- FAIXA PRETA DE 5CM (AGORA VISÍVEL E FORA DOS QUADRADOS) ----- */
+        /* ----- FAIXA PRETA DE 5CM VISÍVEL ----- */
         .faixa-preta-container {
             width: 100%;
             background-color: #0a0a0a;
@@ -239,16 +198,10 @@
             .materias-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .destaques-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         @media (max-width: 480px) {
             .materias-grid {
-                grid-template-columns: 1fr;
-            }
-            .destaques-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -283,41 +236,6 @@
 
         <!-- ESPAÇADOR DE 1CM ABAIXO DOS QUADROS -->
         <div class="espacador-1cm"></div>
-
-        <!-- CONTEÚDO EXTRA PARA DEIXAR A PÁGINA MAIS LONGA -->
-        <div class="conteudo-extra">
-            <h2>📚 Conteúdos em Destaque</h2>
-            <p>Confira os materiais mais recentes adicionados ao portal. Aqui você encontra videoaulas, exercícios resolvidos e resumos preparatórios para provas e vestibulares.</p>
-            
-            <div class="destaques-grid">
-                <div class="destaque-item">
-                    <h3>📖 Redação</h3>
-                    <p>Modelos de redação nota 1000 e dicas de estrutura para o ENEM.</p>
-                </div>
-                <div class="destaque-item">
-                    <h3>🧪 Laboratório</h3>
-                    <p>Experimentos virtuais de química e biologia para praticar.</p>
-                </div>
-                <div class="destaque-item">
-                    <h3>📐 Exercícios</h3>
-                    <p>Listas atualizadas de matemática com resolução em vídeo.</p>
-                </div>
-                <div class="destaque-item">
-                    <h3>🌍 Atualidades</h3>
-                    <p>Resumos semanais sobre geopolítica e meio ambiente.</p>
-                </div>
-                <div class="destaque-item">
-                    <h3>📜 Literatura</h3>
-                    <p>Análise de obras obrigatórias para vestibulares.</p>
-                </div>
-                <div class="destaque-item">
-                    <h3>🔬 Física</h3>
-                    <p>Mapas mentais e fórmulas essenciais para provas.</p>
-                </div>
-            </div>
-
-            <p style="margin-top: 1.5rem; font-style: italic;">+ novos conteúdos adicionados toda semana. Aproveite!</p>
-        </div>
 
         <!-- ESPAÇO ANTES DA FAIXA PRETA -->
         <div style="height: 2rem;"></div>
