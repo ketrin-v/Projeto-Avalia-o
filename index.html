@@ -173,12 +173,13 @@
             background-color: transparent;
         }
 
-        /* ----- FAIXA PRETA DE 5CM (SEM TEXTO) OCUPANDO TODA LARGURA ----- */
+        /* ----- FAIXA PRETA DE 5cm EM TODA EXTENSÃO HORIZONTAL ----- */
         .faixa-preta-container {
             width: 100vw;                /* força 100% da viewport width */
             background-color: #0a0a0a;
             height: 189px;               /* 5cm aproximado */
-            margin-top: 0;
+            margin: 0;
+            padding: 0;
             position: relative;
             left: 50%;                   /* centraliza e expande */
             right: 50%;
@@ -197,6 +198,14 @@
         .apos-faixa {
             width: 100%;
             height: 1rem;
+        }
+
+        /* Garantir que a faixa preta comece exatamente após o espaçador */
+        .pos-faixa {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* responsividade para telas menores */
@@ -238,17 +247,14 @@
 
         <!-- ESPAÇADOR DE 1CM ABAIXO DOS QUADROS -->
         <div class="espacador-1cm"></div>
-
-        <!-- ESPAÇO ANTES DA FAIXA PRETA -->
-        <div style="height: 2rem;"></div>
     </div>
 
-    <!-- FAIXA PRETA DE 5CM (FORA DO CONTAINER PARA OCUPAR 100% DA LARGURA) -->
+    <!-- FAIXA PRETA DE 5cm EM TODA EXTENSÃO HORIZONTAL DA PÁGINA -->
     <div class="faixa-preta-container">
         <div class="faixa-preta"></div>
     </div>
 
-    <!-- PEQUENO ESPAÇO APÓS A FAIXA PRETA (também fora do container) -->
+    <!-- PEQUENO ESPAÇO APÓS A FAIXA PRETA -->
     <div class="apos-faixa"></div>
 
     <script>
