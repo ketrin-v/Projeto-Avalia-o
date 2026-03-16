@@ -24,6 +24,7 @@
             max-width: 1200px;
             width: 100%;
             padding: 2rem 1.5rem 0 1.5rem;
+            flex: 1 0 auto; /* faz o container crescer e empurrar a linha preta para baixo */
         }
 
         /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas, lupa à direita) ----- */
@@ -162,14 +163,14 @@
             transform: scale(0.98);
         }
 
-        /* ----- LINHA PRETA (até o fim) ----- */
-        .linha-preta {
+        /* ----- LINHA PRETA NO FINAL DA PÁGINA ----- */
+        .linha-preta-final {
             width: 100vw;               /* força largura total viewport */
             height: 4px;
             background-color: #0a0a0a;
             margin-top: 2rem;
             border: none;
-            margin-left: calc(-50vw + 50%);  /* truque para compensar padding do container */
+            flex-shrink: 0;              /* não encolhe */
         }
 
         /* responsividade para telas menores */
@@ -215,8 +216,8 @@
         </div>
     </div>
 
-    <!-- LINHA PRETA QUE VAI ATÉ O FINAL DA PÁGINA (fora do container) -->
-    <div class="linha-preta" aria-hidden="true"></div>
+    <!-- LINHA PRETA NO FINAL DA PÁGINA -->
+    <div class="linha-preta-final" aria-hidden="true"></div>
 
     <script>
         (function() {
@@ -310,6 +311,6 @@
         })();
     </script>
 
-    <!-- Nota: linha preta já está fora do container, se estende até os limites da página -->
+    <!-- Nota: linha preta está no final da página, fora do container -->
 </body>
 </html>
