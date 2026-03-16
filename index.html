@@ -18,12 +18,15 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
+            overflow-x: hidden;
         }
 
+        /* Container agora ocupa 100% da largura sem margens laterais */
         .container {
-            max-width: 1200px;
             width: 100%;
-            padding: 2rem 1.5rem 0 1.5rem;
+            max-width: 100%;             /* remove a limitação de 1200px */
+            padding: 2rem 2rem 0 2rem;   /* padding lateral reduzido para aproveitar espaço */
         }
 
         /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas, lupa à direita) ----- */
@@ -124,18 +127,19 @@
             border-radius: 0;            /* quadrado sem arredondamento */
         }
 
-        /* ----- GRADE DE MATÉRIAS (3x3) ----- */
+        /* ----- GRADE DE MATÉRIAS (3x3) AGORA MAIS LARGA ----- */
         .materias-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);  /* exatamente 3 colunas */
             gap: 1.5rem;
             margin: 2.5rem 0 0 0;
+            width: 100%;
         }
 
         .card-materia {
             background-color: white;
             border-radius: 0;            /* quadrados sem bordas arredondadas */
-            padding: 2.5rem 0.5rem;
+            padding: 3rem 0.5rem;         /* padding vertical aumentado para melhor proporção */
             text-align: center;
             font-size: 1.3rem;
             font-weight: 600;
@@ -169,13 +173,17 @@
             background-color: transparent;
         }
 
-        /* ----- FAIXA PRETA DE 5CM (SEM TEXTO) ----- */
+        /* ----- FAIXA PRETA DE 5CM (SEM TEXTO) OCUPANDO TODA LARGURA ----- */
         .faixa-preta-container {
-            width: 100%;
+            width: 100vw;                /* força 100% da viewport width */
             background-color: #0a0a0a;
             height: 189px;               /* 5cm aproximado */
             margin-top: 0;
             position: relative;
+            left: 50%;                   /* centraliza e expande */
+            right: 50%;
+            margin-left: -50vw;           /* truque para expandir além do container */
+            margin-right: -50vw;
             z-index: 1;
         }
 
@@ -183,6 +191,12 @@
             width: 100%;
             height: 100%;
             background-color: #0a0a0a;
+        }
+
+        /* Ajuste para o conteúdo após a faixa preta */
+        .apos-faixa {
+            width: 100%;
+            height: 1rem;
         }
 
         /* responsividade para telas menores */
@@ -196,10 +210,6 @@
             .materias-grid {
                 grid-template-columns: 1fr;
             }
-        }
-
-        body {
-            overflow-x: hidden;
         }
     </style>
 </head>
@@ -231,15 +241,15 @@
 
         <!-- ESPAÇO ANTES DA FAIXA PRETA -->
         <div style="height: 2rem;"></div>
-
-        <!-- FAIXA PRETA DE 5CM (SEM TEXTO) -->
-        <div class="faixa-preta-container">
-            <div class="faixa-preta"></div>
-        </div>
-
-        <!-- PEQUENO ESPAÇO APÓS A FAIXA PRETA -->
-        <div style="height: 1rem;"></div>
     </div>
+
+    <!-- FAIXA PRETA DE 5CM (FORA DO CONTAINER PARA OCUPAR 100% DA LARGURA) -->
+    <div class="faixa-preta-container">
+        <div class="faixa-preta"></div>
+    </div>
+
+    <!-- PEQUENO ESPAÇO APÓS A FAIXA PRETA (também fora do container) -->
+    <div class="apos-faixa"></div>
 
     <script>
         (function() {
