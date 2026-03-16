@@ -18,12 +18,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
         }
 
         .container {
             max-width: 1200px;
             width: 100%;
             padding: 2rem 1.5rem 0 1.5rem;
+            position: relative;
+            z-index: 2;
+            background-color: transparent;
         }
 
         /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas, lupa à direita) ----- */
@@ -162,14 +166,40 @@
             transform: scale(0.98);
         }
 
-        /* ----- LINHA PRETA LOGO ABAIXO DAS ÚLTIMAS 3 MATÉRIAS ----- */
-        .linha-preta-abaixo {
-            width: 100%;                 /* largura total do container */
-            height: 4px;
+        /* ----- FAIXA PRETA DE 5CM (APROXIMADAMENTE 189PX) ----- */
+        .faixa-preta {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 189px;              /* 5cm aproximado (1cm = 37.8px) */
             background-color: #0a0a0a;
-            margin: 1.5rem 0 0 0;        /* espaço acima da linha */
-            border: none;
-            grid-column: 1 / -1;          /* faz a linha ocupar todas as colunas do grid */
+            z-index: 1;
+            bottom: 0;                   /* vai até o final da página */
+        }
+
+        /* Espaçador para criar os 1cm abaixo dos quadros */
+        .espacador-1cm {
+            height: 37.8px;              /* 1cm aproximado */
+            width: 100%;
+            background-color: transparent;
+        }
+
+        /* Container relativo para posicionar a faixa */
+        .conteudo-principal {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Ajuste para o container ficar acima da faixa */
+        .container {
+            position: relative;
+            z-index: 3;
+            background-color: transparent;
+            flex: 1;
         }
 
         /* responsividade para telas menores */
@@ -185,34 +215,44 @@
             }
         }
 
-        /* pequeno ajuste para o contêiner não esconder a linha preta */
+        /* pequeno ajuste para o contêiner não esconder a faixa */
         body {
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- BARRA DE PESQUISA 100% COM LUPA À DIREITA -->
-        <div class="search-section">
-            <div class="search-wrapper">
-                <span class="lupa" aria-hidden="true">
-                    <span class="lupa-svg"></span>
-                </span>
-                <input type="text" placeholder="Pesquisar matéria ou conteúdo..." aria-label="Campo de pesquisa">
+    <div class="conteudo-principal">
+        <div class="container">
+            <!-- BARRA DE PESQUISA 100% COM LUPA À DIREITA -->
+            <div class="search-section">
+                <div class="search-wrapper">
+                    <span class="lupa" aria-hidden="true">
+                        <span class="lupa-svg"></span>
+                    </span>
+                    <input type="text" placeholder="Pesquisar matéria ou conteúdo..." aria-label="Campo de pesquisa">
+                </div>
             </div>
+
+            <!-- LINHA "TUDO" E "IMAGEM" (ao clicar, quadrado em volta) -->
+            <div class="tudo-linha">
+                <span class="palavra-interativa" id="palavraTudo">tudo</span>
+                <span class="palavra-interativa" id="palavraImagem">imagem</span>
+            </div>
+
+            <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 -->
+            <div class="materias-grid" id="gradeMaterias">
+                <!-- os dados serão preenchidos via JavaScript -->
+            </div>
+
+            <!-- ESPAÇADOR DE 1CM ABAIXO DOS QUADROS -->
+            <div class="espacador-1cm"></div>
         </div>
 
-        <!-- LINHA "TUDO" E "IMAGEM" (ao clicar, quadrado em volta) -->
-        <div class="tudo-linha">
-            <span class="palavra-interativa" id="palavraTudo">tudo</span>
-            <span class="palavra-interativa" id="palavraImagem">imagem</span>
-        </div>
-
-        <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 COM LINHA PRETA ABAIXO -->
-        <div class="materias-grid" id="gradeMaterias">
-            <!-- os dados serão preenchidos via JavaScript -->
-        </div>
+        <!-- FAIXA PRETA DE 5CM QUE VAI ATÉ O FINAL DA PÁGINA -->
+        <div class="faixa-preta" aria-hidden="true"></div>
     </div>
 
     <script>
@@ -230,10 +270,10 @@
                 "língua portuguesa"
             ];
 
-            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3) E ADICIONAR LINHA PRETA
+            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3)
             const grade = document.getElementById('gradeMaterias');
             if (grade) {
-                materias.forEach((materia, index) => {
+                materias.forEach(materia => {
                     const card = document.createElement('div');
                     card.className = 'card-materia';
                     card.textContent = materia;
@@ -283,13 +323,6 @@
                     });
 
                     grade.appendChild(card);
-
-                    // Após adicionar o último card (índice 8), insere a linha preta
-                    if (index === materias.length - 1) {
-                        const linhaPreta = document.createElement('hr');
-                        linhaPreta.className = 'linha-preta-abaixo';
-                        grade.appendChild(linhaPreta);
-                    }
                 });
             }
 
