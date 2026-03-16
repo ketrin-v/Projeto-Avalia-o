@@ -24,7 +24,6 @@
             max-width: 1200px;
             width: 100%;
             padding: 2rem 1.5rem 0 1.5rem;
-            flex: 1 0 auto; /* faz o container crescer e empurrar a linha preta para baixo */
         }
 
         /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas, lupa à direita) ----- */
@@ -130,7 +129,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);  /* exatamente 3 colunas */
             gap: 1.5rem;
-            margin: 2.5rem 0 3rem 0;
+            margin: 2.5rem 0 0 0;
         }
 
         .card-materia {
@@ -163,14 +162,14 @@
             transform: scale(0.98);
         }
 
-        /* ----- LINHA PRETA NO FINAL DA PÁGINA ----- */
-        .linha-preta-final {
-            width: 100vw;               /* força largura total viewport */
+        /* ----- LINHA PRETA LOGO ABAIXO DAS ÚLTIMAS 3 MATÉRIAS ----- */
+        .linha-preta-abaixo {
+            width: 100%;                 /* largura total do container */
             height: 4px;
             background-color: #0a0a0a;
-            margin-top: 2rem;
+            margin: 1.5rem 0 0 0;        /* espaço acima da linha */
             border: none;
-            flex-shrink: 0;              /* não encolhe */
+            grid-column: 1 / -1;          /* faz a linha ocupar todas as colunas do grid */
         }
 
         /* responsividade para telas menores */
@@ -210,14 +209,11 @@
             <span class="palavra-interativa" id="palavraImagem">imagem</span>
         </div>
 
-        <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 -->
+        <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 COM LINHA PRETA ABAIXO -->
         <div class="materias-grid" id="gradeMaterias">
-            <!-- os dados serão preenchidos via JavaScript para abrir páginas dinâmicas -->
+            <!-- os dados serão preenchidos via JavaScript -->
         </div>
     </div>
-
-    <!-- LINHA PRETA NO FINAL DA PÁGINA -->
-    <div class="linha-preta-final" aria-hidden="true"></div>
 
     <script>
         (function() {
@@ -234,24 +230,19 @@
                 "língua portuguesa"
             ];
 
-            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3)
+            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3) E ADICIONAR LINHA PRETA
             const grade = document.getElementById('gradeMaterias');
             if (grade) {
-                materias.forEach(materia => {
+                materias.forEach((materia, index) => {
                     const card = document.createElement('div');
                     card.className = 'card-materia';
                     card.textContent = materia;
 
                     // ao clicar no card → abre nova página com os conteúdos da matéria
                     card.addEventListener('click', function(e) {
-                        e.stopPropagation();   // evitar conflitos
-                        // Cria uma página simples de exemplo (poderia ser um link real)
-                        // Usamos encodeURIComponent para evitar problemas com espaços e caracteres
-                        const materiaClean = materia.toLowerCase().replace(/\s+/g, '-');
-                        // Simulação de abertura de página: nova aba com uma página construída dinamicamente (conteúdo ilustrativo)
+                        e.stopPropagation();
                         const novaJanela = window.open('', '_blank');
                         if (novaJanela) {
-                            // Escrevemos um HTML básico com o nome da matéria e conteúdos genéricos
                             novaJanela.document.write(`
                                 <!DOCTYPE html>
                                 <html lang="pt">
@@ -292,6 +283,13 @@
                     });
 
                     grade.appendChild(card);
+
+                    // Após adicionar o último card (índice 8), insere a linha preta
+                    if (index === materias.length - 1) {
+                        const linhaPreta = document.createElement('hr');
+                        linhaPreta.className = 'linha-preta-abaixo';
+                        grade.appendChild(linhaPreta);
+                    }
                 });
             }
 
@@ -299,18 +297,10 @@
             const palavras = document.querySelectorAll('.palavra-interativa');
             palavras.forEach(palavra => {
                 palavra.addEventListener('click', function() {
-                    // Remove o highlight de todas as palavras primeiro (opcional - se quiser apenas uma por vez)
-                    // palavras.forEach(p => p.classList.remove('highlight-palavra'));
-                    
-                    // Alterna a classe na palavra clicada
                     this.classList.toggle('highlight-palavra');
                 });
             });
-
-            // 3) bônus: ao digitar na pesquisa, nada especial (só UI)
         })();
     </script>
-
-    <!-- Nota: linha preta está no final da página, fora do container -->
 </body>
 </html>
