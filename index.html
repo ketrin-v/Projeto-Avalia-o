@@ -124,10 +124,10 @@
             border-radius: 0;            /* quadrado sem arredondamento */
         }
 
-        /* ----- GRADE DE MATÉRIAS (quadrados) ----- */
+        /* ----- GRADE DE MATÉRIAS (3x3) ----- */
         .materias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(3, 1fr);  /* exatamente 3 colunas */
             gap: 1.5rem;
             margin: 2.5rem 0 3rem 0;
         }
@@ -135,9 +135,9 @@
         .card-materia {
             background-color: white;
             border-radius: 0;            /* quadrados sem bordas arredondadas */
-            padding: 1.8rem 0.5rem;
+            padding: 2.5rem 0.5rem;
             text-align: center;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 600;
             color: #1e293b;
             box-shadow: 0 10px 20px -8px rgba(0,0,0,0.1);
@@ -172,10 +172,16 @@
             margin-left: calc(-50vw + 50%);  /* truque para compensar padding do container */
         }
 
-        /* responsividade fina */
-        @media (max-width: 640px) {
+        /* responsividade para telas menores */
+        @media (max-width: 768px) {
             .materias-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr);  /* em tablets vira 2 colunas */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .materias-grid {
+                grid-template-columns: 1fr;  /* em celulares vira 1 coluna */
             }
         }
 
@@ -203,7 +209,7 @@
             <span class="palavra-interativa" id="palavraImagem">imagem</span>
         </div>
 
-        <!-- GRADE DE QUADRADOS (MATÉRIAS) -->
+        <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 -->
         <div class="materias-grid" id="gradeMaterias">
             <!-- os dados serão preenchidos via JavaScript para abrir páginas dinâmicas -->
         </div>
@@ -227,7 +233,7 @@
                 "língua portuguesa"
             ];
 
-            // 1) CONSTRUIR OS QUADRADOS NO GRID
+            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3)
             const grade = document.getElementById('gradeMaterias');
             if (grade) {
                 materias.forEach(materia => {
