@@ -74,6 +74,12 @@
             align-items: center;
             justify-content: center;
             color: #475569;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .lupa:hover {
+            opacity: 0.7;
         }
 
         /* desenho vetorial da lupa (ícone simples com CSS) */
@@ -166,6 +172,23 @@
             transform: scale(0.98);
         }
 
+        /* Classe para esconder os cards que não correspondem à pesquisa */
+        .card-materia.hidden {
+            display: none;
+        }
+
+        /* Mensagem quando nenhum resultado é encontrado */
+        .nenhum-resultado {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #64748b;
+            background-color: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            grid-column: 1 / -1;
+            margin: 2rem 0;
+        }
+
         /* Espaçador de 1cm abaixo dos quadros */
         .espacador-1cm {
             height: 37.8px;              /* 1cm aproximado */
@@ -219,10 +242,10 @@
         <!-- BARRA DE PESQUISA 100% COM LUPA À DIREITA -->
         <div class="search-section">
             <div class="search-wrapper">
-                <span class="lupa" aria-hidden="true">
+                <span class="lupa" aria-hidden="true" id="botaoPesquisa">
                     <span class="lupa-svg"></span>
                 </span>
-                <input type="text" placeholder="Pesquisar matéria ou conteúdo..." aria-label="Campo de pesquisa">
+                <input type="text" id="campoPesquisa" placeholder="Pesquisar matéria ou conteúdo..." aria-label="Campo de pesquisa">
             </div>
         </div>
 
@@ -264,6 +287,8 @@
                 "língua portuguesa"
             ];
 
+            let cards = []; // Array para armazenar os cards criados
+
             // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3)
             const grade = document.getElementById('gradeMaterias');
             if (grade) {
@@ -271,6 +296,7 @@
                     const card = document.createElement('div');
                     card.className = 'card-materia';
                     card.textContent = materia;
+                    card.setAttribute('data-materia', materia.toLowerCase());
 
                     // ao clicar no card → abre nova página com os conteúdos da matéria
                     card.addEventListener('click', function(e) {
@@ -317,14 +343,80 @@
                     });
 
                     grade.appendChild(card);
+                    cards.push(card);
                 });
             }
 
-            // 2) INTERAÇÃO "TUDO" e "IMAGEM" – ao clicar, adiciona/remove quadrado em volta
+            // 2) FUNÇÃO DE PESQUISA
+            function pesquisarMateria() {
+                const termoPesquisa = document.getElementById('campoPesquisa').value.toLowerCase().trim();
+                
+                let resultadosEncontrados = 0;
+                
+                cards.forEach(card => {
+                    const nomeMateria = card.getAttribute('data-materia');
+                    
+                    // Verifica se o termo de pesquisa está contido no nome da matéria
+                    if (termoPesquisa === '' || nomeMateria.includes(termoPesquisa)) {
+                        card.classList.remove('hidden');
+                        resultadosEncontrados++;
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+                
+                // Remove mensagem de "nenhum resultado" se existir
+                const mensagemExistente = grade.querySelector('.nenhum-resultado');
+                if (mensagemExistente) {
+                    mensagemExistente.remove();
+                }
+                
+                // Se não encontrou nenhum resultado, exibe mensagem
+                if (resultadosEncontrados === 0 && termoPesquisa !== '') {
+                    const mensagem = document.createElement('div');
+                    mensagem.className = 'nenhum-resultado';
+                    mensagem.textContent = `Nenhuma matéria encontrada para "${termoPesquisa}". Tente novamente!`;
+                    grade.appendChild(mensagem);
+                }
+            }
+            
+            // 3) CONFIGURAR EVENTOS DE PESQUISA
+            const campoPesquisa = document.getElementById('campoPesquisa');
+            const botaoPesquisa = document.getElementById('botaoPesquisa');
+            
+            // Pesquisar ao digitar no campo (com atraso para melhor experiência)
+            let timeoutId;
+            campoPesquisa.addEventListener('input', function() {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(pesquisarMateria, 300); // Aguarda 300ms após parar de digitar
+            });
+            
+            // Pesquisar ao clicar na lupa
+            botaoPesquisa.addEventListener('click', function() {
+                pesquisarMateria();
+            });
+            
+            // Pesquisar ao pressionar Enter no campo de pesquisa
+            campoPesquisa.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    pesquisarMateria();
+                }
+            });
+            
+            // 4) FUNÇÃO PARA LIMPAR PESQUISA (opcional - quando clicar em "tudo" ou "imagem")
+            function limparPesquisa() {
+                campoPesquisa.value = '';
+                pesquisarMateria();
+            }
+            
+            // 5) INTERAÇÃO "TUDO" e "IMAGEM" – ao clicar, adiciona/remove quadrado em volta e limpa pesquisa
             const palavras = document.querySelectorAll('.palavra-interativa');
             palavras.forEach(palavra => {
                 palavra.addEventListener('click', function() {
                     this.classList.toggle('highlight-palavra');
+                    // Limpa a pesquisa ao clicar nas palavras
+                    limparPesquisa();
                 });
             });
         })();
