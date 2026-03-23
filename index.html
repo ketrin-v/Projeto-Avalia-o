@@ -173,39 +173,31 @@
             background-color: transparent;
         }
 
-        /* ----- FAIXA PRETA DE 5cm EM TODA EXTENSÃO HORIZONTAL ----- */
-        .faixa-preta-container {
-            width: 100vw;                /* força 100% da viewport width */
+        /* ----- FAIXA PRETA EM TODA A EXTENSÃO HORIZONTAL DA PÁGINA (TODA LARGURA) ----- */
+        .faixa-preta-full {
+            width: 100%;                 /* largura total do elemento pai (body) */
             background-color: #0a0a0a;
             height: 189px;               /* 5cm aproximado */
             margin: 0;
             padding: 0;
             position: relative;
-            left: 50%;                   /* centraliza e expande */
-            right: 50%;
-            margin-left: -50vw;           /* truque para expandir além do container */
-            margin-right: -50vw;
+            left: 0;
+            right: 0;
             z-index: 1;
         }
 
-        .faixa-preta {
+        /* Garantir que o body ocupe 100% da largura */
+        body {
             width: 100%;
-            height: 100%;
-            background-color: #0a0a0a;
+            margin: 0;
+            padding: 0;
         }
 
         /* Ajuste para o conteúdo após a faixa preta */
         .apos-faixa {
             width: 100%;
             height: 1rem;
-        }
-
-        /* Garantir que a faixa preta comece exatamente após o espaçador */
-        .pos-faixa {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: transparent;
         }
 
         /* responsividade para telas menores */
@@ -249,8 +241,8 @@
         <div class="espacador-1cm"></div>
     </div>
 
-    <!-- FAIXA PRETA DE 5cm EM TODA EXTENSÃO HORIZONTAL DA PÁGINA -->
-    <div class="faixa-preta-container">
+    <!-- FAIXA PRETA OCUPANDO TODA A EXTENSÃO HORIZONTAL DA PÁGINA -->
+    <div class="faixa-preta-full">
         <div class="faixa-preta"></div>
     </div>
 
