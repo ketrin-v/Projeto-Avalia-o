@@ -22,30 +22,28 @@
             overflow-x: hidden;
         }
 
-        /* Container agora ocupa 100% da largura sem margens laterais */
         .container {
             width: 100%;
-            max-width: 100%;             /* remove a limitação de 1200px */
-            padding: 2rem 2rem 0 2rem;   /* padding lateral reduzido para aproveitar espaço */
+            max-width: 100%;
+            padding: 2rem 2rem 0 2rem;
         }
 
-        /* ----- BARRA DE PESQUISA (100% largura, pontas quadradas, lupa à direita) ----- */
         .search-section {
             width: 100%;
             margin-bottom: 2.5rem;
         }
 
         .search-wrapper {
-            width: 100%;                /* ocupa toda a extensão horizontal */
+            width: 100%;
             background-color: white;
             border: 2px solid #cbd5e1;
-            border-radius: 0;            /* pontas completamente quadradas */
+            border-radius: 0;
             display: flex;
             align-items: center;
             padding: 0.8rem 1.2rem;
             transition: border 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-            flex-direction: row-reverse;  /* inverte a ordem: lupa vai para a direita */
+            flex-direction: row-reverse;
         }
 
         .search-wrapper:focus-within {
@@ -68,8 +66,7 @@
         }
 
         .lupa {
-            margin-left: 1rem;           /* espaço entre a lupa e o texto (agora à esquerda da lupa) */
-            margin-right: 0;              /* remove margem direita */
+            margin-left: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -82,7 +79,6 @@
             opacity: 0.7;
         }
 
-        /* desenho vetorial da lupa (ícone simples com CSS) */
         .lupa-svg {
             width: 22px;
             height: 22px;
@@ -104,7 +100,6 @@
             border-radius: 1px;
         }
 
-        /* ----- LINHA "TUDO" E "IMAGEM" COM INTERAÇÃO (QUADRADO AO CLICAR) ----- */
         .tudo-linha {
             margin: 1.2rem 0 0.5rem 0;
             font-size: 2rem;
@@ -112,7 +107,7 @@
             letter-spacing: 1px;
             display: flex;
             align-items: center;
-            gap: 1.5rem;                /* espaço entre as palavras */
+            gap: 1.5rem;
             flex-wrap: wrap;
         }
 
@@ -125,18 +120,16 @@
             padding: 0 0.2rem;
         }
 
-        /* classe ativada via JS para simular o quadrado ao redor das palavras */
         .highlight-palavra {
             outline: 3px solid #2563eb;
             outline-offset: 4px;
             background-color: #eff6ff;
-            border-radius: 0;            /* quadrado sem arredondamento */
+            border-radius: 0;
         }
 
-        /* ----- GRADE DE MATÉRIAS (3x3) AGORA MAIS LARGA ----- */
         .materias-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);  /* exatamente 3 colunas */
+            grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
             margin: 2.5rem 0 0 0;
             width: 100%;
@@ -144,8 +137,8 @@
 
         .card-materia {
             background-color: white;
-            border-radius: 0;            /* quadrados sem bordas arredondadas */
-            padding: 3rem 0.5rem;         /* padding vertical aumentado para melhor proporção */
+            border-radius: 0;
+            padding: 3rem 0.5rem;
             text-align: center;
             font-size: 1.3rem;
             font-weight: 600;
@@ -158,35 +151,51 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            aspect-ratio: 1 / 1;        /* garante formato quadrado */
+            aspect-ratio: 1 / 1;
             word-break: break-word;
             line-height: 1.3;
             gap: 0.8rem;
         }
 
-        /* Estilo específico para o card de geografia com imagem */
         .card-materia.geografia-card {
             padding: 1rem 0.5rem;
+            background: linear-gradient(145deg, #f5fafd 0%, #eef3f8 100%);
         }
 
-        .mapa-imagem {
-            width: 80%;
+        .globo-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 800px;
+        }
+
+        .globo-3d {
+            width: 85%;
+            max-width: 180px;
             height: auto;
-            max-height: 60%;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transition: transform 0.2s;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.3));
+            animation: flutuar 3s ease-in-out infinite;
         }
 
-        .card-materia.geografia-card:hover .mapa-imagem {
-            transform: scale(1.05);
+        .card-materia.geografia-card:hover .globo-3d {
+            transform: scale(1.08) rotate(5deg);
+            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
         }
 
-        .card-materia .materia-texto {
+        @keyframes flutuar {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .materia-texto {
             font-size: 1.3rem;
             font-weight: 600;
             color: #1e293b;
+            margin-top: 0.5rem;
         }
 
         .card-materia:hover {
@@ -199,22 +208,18 @@
             transform: scale(0.98);
         }
 
-        /* Classe para esconder os cards que não correspondem à pesquisa */
         .card-materia.hidden {
             display: none;
         }
 
-        /* Classe para esconder todos os cards (modo imagem) */
         .modo-imagem .card-materia {
             display: none;
         }
 
-        /* Classe para esconder a faixa preta no modo imagem */
         .modo-imagem .faixa-preta-full {
             display: none;
         }
 
-        /* Mensagem quando nenhum resultado é encontrado */
         .nenhum-resultado {
             text-align: center;
             padding: 3rem;
@@ -226,47 +231,38 @@
             margin: 2rem 0;
         }
 
-        /* Espaçador de 1cm abaixo dos quadros */
         .espacador-1cm {
-            height: 37.8px;              /* 1cm aproximado */
+            height: 37.8px;
             width: 100%;
             background-color: transparent;
         }
 
-        /* ----- FAIXA PRETA EM TODA A EXTENSÃO HORIZONTAL DA PÁGINA (TODA LARGURA) ----- */
         .faixa-preta-full {
-            width: 100%;                 /* largura total do elemento pai (body) */
+            width: 100%;
             background-color: #0a0a0a;
-            height: 189px;               /* 5cm aproximado */
+            height: 189px;
             margin: 0;
             padding: 0;
-            position: relative;
-            left: 0;
-            right: 0;
-            z-index: 1;
         }
 
-        /* Garantir que o body ocupe 100% da largura */
         body {
             width: 100%;
             margin: 0;
             padding: 0;
         }
 
-        /* Ajuste para o conteúdo após a faixa preta */
         .apos-faixa {
             width: 100%;
             height: 1rem;
             background-color: transparent;
         }
 
-        /* responsividade para telas menores */
         @media (max-width: 768px) {
             .materias-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .mapa-imagem {
-                width: 70%;
+            .globo-3d {
+                width: 75%;
             }
         }
 
@@ -274,15 +270,14 @@
             .materias-grid {
                 grid-template-columns: 1fr;
             }
-            .mapa-imagem {
-                width: 60%;
+            .globo-3d {
+                width: 65%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- BARRA DE PESQUISA 100% COM LUPA À DIREITA -->
         <div class="search-section">
             <div class="search-wrapper">
                 <span class="lupa" aria-hidden="true" id="botaoPesquisa">
@@ -292,32 +287,24 @@
             </div>
         </div>
 
-        <!-- LINHA "TUDO" E "IMAGEM" (ao clicar, quadrado em volta) -->
         <div class="tudo-linha">
             <span class="palavra-interativa" id="palavraTudo">tudo</span>
             <span class="palavra-interativa" id="palavraImagem">imagem</span>
         </div>
 
-        <!-- GRADE DE QUADRADOS (MATÉRIAS) - 3x3 -->
-        <div class="materias-grid" id="gradeMaterias">
-            <!-- os dados serão preenchidos via JavaScript -->
-        </div>
+        <div class="materias-grid" id="gradeMaterias"></div>
 
-        <!-- ESPAÇADOR DE 1CM ABAIXO DOS QUADROS -->
         <div class="espacador-1cm"></div>
     </div>
 
-    <!-- FAIXA PRETA OCUPANDO TODA A EXTENSÃO HORIZONTAL DA PÁGINA -->
     <div class="faixa-preta-full">
         <div class="faixa-preta"></div>
     </div>
 
-    <!-- PEQUENO ESPAÇO APÓS A FAIXA PRETA -->
     <div class="apos-faixa"></div>
 
     <script>
         (function() {
-            // Lista das matérias (exatamente como pedido)
             const materias = [
                 { nome: "geografia", temImagem: true },
                 { nome: "história", temImagem: false },
@@ -330,13 +317,142 @@
                 { nome: "língua portuguesa", temImagem: false }
             ];
 
-            let cards = []; // Array para armazenar os cards criados
-            let modoImagemAtivo = false; // Variável para controlar o modo imagem
+            let cards = [];
+            let modoImagemAtivo = false;
 
-            // NOVA IMAGEM DE GEOGRAFIA - Mapa do Brasil com cores vibrantes e relevo
-            const mapaImagemUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 500'%3E%3Crect width='600' height='500' fill='%23c8e6f5'/%3E%3C!-- Continente Sulamericano com destaque para o Brasil --%3E%3Cpath d='M280,180 L310,170 L340,175 L370,185 L400,195 L420,210 L430,240 L420,270 L400,290 L370,310 L340,320 L310,325 L280,320 L250,310 L230,290 L220,270 L210,240 L220,210 L240,195 L270,185 L280,180Z' fill='%234caf50' stroke='%232c5e2e' stroke-width='2.5'/%3E%3C!-- Detalhes do território brasileiro --%3E%3Cpath d='M265,195 L285,188 L305,190 L325,198 L345,210 L355,228 L350,250 L335,268 L315,278 L295,282 L275,278 L260,268 L250,250 L252,228 L260,210 L265,195Z' fill='%2368b84c' stroke='%232c5e2e' stroke-width='1.8'/%3E%3C!-- Rios amazônicos --%3E%3Cpath d='M290,205 L300,212 L310,218 L320,220 L330,218 L340,212' stroke='%234a90c4' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Cpath d='M280,220 L290,225 L300,228 L310,230 L320,228 L330,225' stroke='%234a90c4' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C!-- Pontos turísticos --%3E%3Ccircle cx='300' cy='225' r='5' fill='%23ff6b6b' stroke='%23c92a2a' stroke-width='1.5'/%3E%3Ccircle cx='275' cy='252' r='4' fill='%23ff6b6b'/%3E%3Ccircle cx='325' cy='245' r='4' fill='%23ff6b6b'/%3E%3Ccircle cx='295' cy='278' r='5' fill='%23ffa500'/%3E%3C!-- Textos identificadores --%3E%3Ctext x='265' y='215' font-size='12' fill='white' font-weight='bold'%3E🌳 Amazônia%3C/text%3E%3Ctext x='335' y='260' font-size='11' fill='white'%3E🏖️ Nordeste%3C/text%3E%3Ctext x='275' y='295' font-size='11' fill='white'%3E🌊 Sul%3C/text%3E%3Ctext x='315' y='295' font-size='12' fill='white' font-weight='bold'%3E⭐ Centro-Oeste%3C/text%3E%3C!-- Emblema do Brasil --%3E%3Ctext x='460' y='70' font-size='28' fill='%23ffd700' font-weight='bold'%3E🇧🇷%3C/text%3E%3Ctext x='120' y='420' font-size='14' fill='%23333333'%3EMapa ilustrativo do Brasil%3C/text%3E%3C/svg%3E";
+            // GLOBO TERRESTRE ULTRA REALISTA COM VERDES RICOS E DETALHADOS
+            const globoPremiumUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 540'%3E
+                %3Cdefs%3E
+                    %3CradialGradient id='oceanGrad' cx='40%25' cy='35%25' r='65%25'%3E
+                        %3Cstop offset='0%25' stop-color='%234aa5df'/%3E
+                        %3Cstop offset='40%25' stop-color='%233187c7'/%3E
+                        %3Cstop offset='70%25' stop-color='%23205d8f'/%3E
+                        %3Cstop offset='100%25' stop-color='%23154466'/%3E
+                    %3C/radialGradient%3E
+                    %3CradialGradient id='gloss' cx='30%25' cy='30%25' r='50%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.7'/%3E
+                        %3Cstop offset='60%25' stop-color='%23ffffff' stop-opacity='0.2'/%3E
+                        %3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/%3E
+                    %3C/radialGradient%3E
+                    %3CradialGradient id='shadow' cx='70%25' cy='75%25' r='55%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23000000' stop-opacity='0.4'/%3E
+                        %3Cstop offset='100%25' stop-color='%23000000' stop-opacity='0'/%3E
+                    %3C/radialGradient%3E
+                    %3ClinearGradient id='forestGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
+                        %3Cstop offset='0%25' stop-color='%233d8c40'/%3E
+                        %3Cstop offset='50%25' stop-color='%2355b34c'/%3E
+                        %3Cstop offset='100%25' stop-color='%233d8c40'/%3E
+                    %3C/linearGradient%3E
+                    %3ClinearGradient id='savannaGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
+                        %3Cstop offset='0%25' stop-color='%2374b95c'/%3E
+                        %3Cstop offset='100%25' stop-color='%23589a45'/%3E
+                    %3C/linearGradient%3E
+                    %3Cfilter id='softGlow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E
+                        %3CfeGaussianBlur in='SourceAlpha' stdDeviation='2'/%3E
+                        %3CfeMerge%3E%3CfeMergeNode in='offsetblur' /%3E%3CfeMergeNode in='SourceGraphic' /%3E%3C/feMerge%3E
+                    %3C/filter%3E
+                %3C/defs%3E
+                
+                %3C!-- Base do globo com gradiente oceânico profundo --%3E
+                %3Ccircle cx='270' cy='270' r='255' fill='url(%23oceanGrad)' stroke='%232a5a7a' stroke-width='2.5'/%3E
+                %3Ccircle cx='270' cy='270' r='252' fill='url(%23oceanGrad)'/%3E
+                
+                %3C!-- AMÉRICAS - com tons verdes variados e texturas --%3E
+                %3C!-- América do Norte e Central com floresta densa --%3E
+                %3Cpath d='M135,160 L162,142 L190,148 L212,165 L226,188 L222,215 L204,238 L178,248 L150,242 L130,224 L118,198 L122,170 L135,160Z' fill='url(%23forestGrad)' stroke='%2320643a' stroke-width='1.5'/%3E
+                %3Cpath d='M185,245 L202,236 L220,245 L232,262 L224,285 L204,298 L182,293 L166,276 L162,256 L174,245 L185,245Z' fill='%2358b04c' stroke='%2320643a' stroke-width='1.2'/%3E
+                %3C!-- América do Sul com floresta amazônica e cerrado --%3E
+                %3Cpath d='M145,300 L168,288 L192,296 L210,312 L215,340 L198,362 L172,370 L148,360 L130,338 L125,315 L135,300 L145,300Z' fill='%234fa845' stroke='%2320643a' stroke-width='1.5'/%3E
+                %3Cpath d='M195,315 L215,305 L235,315 L248,335 L238,358 L215,370 L192,365 L175,345 L170,325 L185,312 L195,315Z' fill='%236bb84e' stroke='%2320643a' stroke-width='1.3'/%3E
+                %3C!-- Cordilheira dos Andes com tom mais seco --%3E
+                %3Cpath d='M202,332 L218,324 L235,332 L245,350 L235,368 L218,376 L200,370 L188,350 L192,335 L202,332Z' fill='%238cc97a' stroke='%233a7a2e' stroke-width='1.2'/%3E
+                
+                %3C!-- EUROPA - com vegetação temperada --%3E
+                %3Cpath d='M385,128 L410,120 L435,128 L455,148 L468,175 L458,200 L438,215 L412,218 L388,208 L368,188 L360,162 L370,138 L385,128Z' fill='%2366bb54' stroke='%2320643a' stroke-width='1.5'/%3E
+                
+                %3C!-- ÁSIA - continente mais verde e variado --%3E
+                %3Cpath d='M435,160 L462,150 L490,160 L512,182 L526,212 L514,238 L490,252 L465,252 L440,240 L420,218 L412,192 L425,168 L435,160Z' fill='%2365b84a' stroke='%2320643a' stroke-width='1.5'/%3E
+                %3Cpath d='M505,215 L532,205 L558,218 L578,240 L570,268 L548,285 L520,285 L498,270 L485,245 L497,222 L505,215Z' fill='%2372c15a' stroke='%2320643a' stroke-width='1.5'/%3E
+                %3Cpath d='M580,248 L608,238 L632,248 L650,268 L642,292 L618,308 L592,305 L568,288 L558,262 L572,248 L580,248Z' fill='%236bb84e' stroke='%2320643a' stroke-width='1.3'/%3E
+                %3C!-- Sudeste Asiático com floresta tropical --%3E
+                %3Cpath d='M465,215 L485,206 L505,215 L518,238 L508,260 L485,272 L462,267 L448,245 L455,222 L465,215Z' fill='%2355b04a' stroke='%2320643a' stroke-width='1.2'/%3E
+                
+                %3C!-- ÁFRICA - com savanas e florestas equatoriais --%3E
+                %3Cpath d='M320,198 L348,190 L372,200 L392,222 L387,250 L368,270 L342,272 L318,260 L300,236 L298,210 L310,198 L320,198Z' fill='url(%23savannaGrad)' stroke='%2320643a' stroke-width='1.5'/%3E
+                %3Cpath d='M342,235 L362,227 L382,237 L395,258 L382,278 L360,285 L340,277 L325,258 L330,238 L342,235Z' fill='%237ac864' stroke='%2320643a' stroke-width='1.3'/%3E
+                
+                %3C!-- OCEANIA (Austrália) com vegetação costeira --%3E
+                %3Cpath d='M590,288 L615,278 L642,290 L658,312 L648,336 L620,345 L592,335 L578,312 L582,290 L590,288Z' fill='%2385cd70' stroke='%2320643a' stroke-width='1.4'/%3E
+                
+                %3C!-- ÁFRICA DO SUL com vegetação diversificada --%3E
+                %3Cpath d='M325,285 L348,278 L368,288 L380,308 L370,330 L348,342 L325,338 L310,318 L308,295 L318,285 L325,285Z' fill='%2385cd70' stroke='%2320643a' stroke-width='1.3'/%3E
+                
+                %3C!-- Península Arábica (deserto) com tom mais claro --%3E
+                %3Cpath d='M470,182 L495,175 L515,188 L525,210 L510,228 L488,232 L468,220 L458,200 L465,182 L470,182Z' fill='%23b5d38c' stroke='%234a7a2e' stroke-width='1.2'/%3E
+                
+                %3C!-- Detalhes de florestas e texturas verdes adicionais --%3E
+                %3Ccircle cx='210' cy='198' r='12' fill='%2372c15a' opacity='0.5'/%3E
+                %3Ccircle cx='352' cy='168' r='10' fill='%2366bb54' opacity='0.5'/%3E
+                %3Ccircle cx='295' cy='225' r='14' fill='%2385cd70' opacity='0.45'/%3E
+                %3Ccircle cx='520' cy='190' r='11' fill='%237ac864' opacity='0.5'/%3E
+                %3Ccircle cx='385' cy='185' r='9' fill='%2366bb54' opacity='0.5'/%3E
+                
+                %3C!-- Cordilheira do Himalaia (relevo) --%3E
+                %3Cpath d='M480,175 L495,168 L510,176 L512,188 L498,196 L482,190 L476,180 L480,175Z' fill='%239ad87e' stroke='%235a9a3e' stroke-width='1'/%3E
+                
+                %3C!-- Calotas polares com neve e gelo --%3E
+                %3Cpath d='M210,45 L265,32 L315,40 L330,55 L310,70 L265,75 L215,70 L192,58 L198,48 L210,45Z' fill='%23f0f8ff' opacity='0.85' stroke='%23b8d0e0' stroke-width='1.2'/%3E
+                %3Cpath d='M190,465 L235,455 L280,460 L312,472 L290,485 L245,490 L205,485 L175,472 L190,465Z' fill='%23f0f8ff' opacity='0.85' stroke='%23b8d0e0' stroke-width='1.2'/%3E
+                
+                %3C!-- Linhas de longitude e latitude elegantes --%3E
+                %3Ccircle cx='270' cy='270' r='195' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' stroke-dasharray='8,5'/%3E
+                %3Ccircle cx='270' cy='270' r='155' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
+                %3Ccircle cx='270' cy='270' r='115' fill='none' stroke='rgba(255,255,255,0.22)' stroke-width='0.8'/%3E
+                %3Cpath d='M270,75 L270,465' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
+                %3Cpath d='M75,270 L465,270' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
+                
+                %3C!-- Efeito de brilho e reflexo premium --%3E
+                %3Ccircle cx='200' cy='190' r='80' fill='url(%23gloss)'/%3E
+                %3Ccircle cx='340' cy='350' r='65' fill='url(%23shadow)'/%3E
+                
+                %3C!-- Estrelas cintilantes no espaço --%3E
+                %3Ccircle cx='48' cy='62' r='2.5' fill='white' opacity='0.95'/%3E
+                %3Ccircle cx='85' cy='38' r='2' fill='white' opacity='0.9'/%3E
+                %3Ccircle cx='125' cy='55' r='2.2' fill='white' opacity='0.92'/%3E
+                %3Ccircle cx='415' cy='48' r='2.5' fill='white' opacity='0.95'/%3E
+                %3Ccircle cx='458' cy='75' r='2' fill='white' opacity='0.9'/%3E
+                %3Ccircle cx='385' cy='92' r='2.2' fill='white' opacity='0.92'/%3E
+                %3Ccircle cx='60' cy='455' r='2.2' fill='white' opacity='0.92'/%3E
+                %3Ccircle cx='105' cy='482' r='2.5' fill='white' opacity='0.95'/%3E
+                %3Ccircle cx='455' cy='468' r='2' fill='white' opacity='0.9'/%3E
+                %3Ccircle cx='498' cy='438' r='2.2' fill='white' opacity='0.92'/%3E
+                %3Ccircle cx='22' cy='165' r='1.8' fill='white' opacity='0.85'/%3E
+                %3Ccircle cx='508' cy='135' r='2' fill='white' opacity='0.9'/%3E
+                %3Ccircle cx='145' cy='505' r='2' fill='white' opacity='0.88'/%3E
+                %3Ccircle cx='385' cy='510' r='1.8' fill='white' opacity='0.85'/%3E
+                
+                %3C!-- Nuvens atmosféricas suaves --%3E
+                %3Ccircle cx='305' cy='115' r='18' fill='white' opacity='0.25'/%3E
+                %3Ccircle cx='328' cy='105' r='14' fill='white' opacity='0.22'/%3E
+                %3Ccircle cx='282' cy='125' r='12' fill='white' opacity='0.2'/%3E
+                %3Ccircle cx='135' cy='395' r='20' fill='white' opacity='0.25'/%3E
+                %3Ccircle cx='165' cy='382' r='14' fill='white' opacity='0.22'/%3E
+                %3Ccircle cx='105' cy='408' r='12' fill='white' opacity='0.2'/%3E
+                %3Ccircle cx='455' cy='345' r='16' fill='white' opacity='0.23'/%3E
+                %3Ccircle cx='430' cy='332' r='12' fill='white' opacity='0.2'/%3E
+                %3Ccircle cx='475' cy='360' r='10' fill='white' opacity='0.18'/%3E
+                
+                %3C!-- Ondas oceânicas decorativas --%3E
+                %3Cpath d='M85,185 L105,182 L125,188 L145,185' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E
+                %3Cpath d='M465,410 L485,408 L505,412 L525,410' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E
+                %3Cpath d='M335,445 L355,442 L375,447 L395,445' stroke='rgba(255,255,255,0.25)' stroke-width='1' fill='none' stroke-linecap='round'/%3E
+                %3Cpath d='M195,25 L215,22 L235,27 L255,25' stroke='rgba(255,255,255,0.25)' stroke-width='1' fill='none' stroke-linecap='round'/%3E
+                
+                %3C!-- Anel de atmosfera sutil --%3E
+                %3Ccircle cx='270' cy='270' r='258' fill='none' stroke='rgba(80,160,220,0.35)' stroke-width='2.5'/%3E
+                %3Ccircle cx='270' cy='270' r='263' fill='none' stroke='rgba(120,180,240,0.2)' stroke-width='1.8'/%3E
+            %3C/svg%3E`;
 
-            // 1) CONSTRUIR OS QUADRADOS NO GRID (3x3)
             const grade = document.getElementById('gradeMaterias');
             if (grade) {
                 materias.forEach(materia => {
@@ -347,26 +463,26 @@
                     }
                     card.setAttribute('data-materia', materia.nome.toLowerCase());
 
-                    // Conteúdo do card
                     if (materia.nome === "geografia") {
-                        // Card com nova imagem de mapa
+                        const container = document.createElement('div');
+                        container.className = 'globo-container';
+                        
                         const img = document.createElement('img');
-                        img.src = mapaImagemUrl;
-                        img.alt = "Mapa do Brasil colorido";
-                        img.className = "mapa-imagem";
+                        img.src = globoPremiumUrl;
+                        img.alt = "Globo terrestre premium";
+                        img.className = "globo-3d";
                         
                         const texto = document.createElement('span');
                         texto.className = "materia-texto";
                         texto.textContent = "geografia";
                         
-                        card.appendChild(img);
+                        container.appendChild(img);
+                        card.appendChild(container);
                         card.appendChild(texto);
                     } else {
-                        // Card normal apenas com texto
                         card.textContent = materia.nome;
                     }
 
-                    // ao clicar no card → abre nova página com os conteúdos da matéria
                     card.addEventListener('click', function(e) {
                         e.stopPropagation();
                         const materiaNome = materia.nome;
@@ -416,145 +532,85 @@
                 });
             }
 
-            // 2) FUNÇÃO PARA MOSTRAR TODAS AS MATÉRIAS (desativar modo imagem)
             function mostrarTodasMaterias() {
                 modoImagemAtivo = false;
-                // Remove a classe que esconde os cards e a faixa preta
                 document.body.classList.remove('modo-imagem');
-                // Garante que todos os cards estejam visíveis
-                cards.forEach(card => {
-                    card.classList.remove('hidden');
-                });
-                
-                // Remove mensagem de "nenhum resultado" se existir
-                const mensagemExistente = grade.querySelector('.nenhum-resultado');
-                if (mensagemExistente) {
-                    mensagemExistente.remove();
-                }
+                cards.forEach(card => card.classList.remove('hidden'));
+                const msg = grade.querySelector('.nenhum-resultado');
+                if (msg) msg.remove();
             }
             
-            // 3) FUNÇÃO PARA DEIXAR APENAS AS MATÉRIAS E FAIXA PRETA EM BRANCO
             function materiasEFaixaEmBranco() {
                 modoImagemAtivo = true;
-                // Adiciona a classe que esconde todos os cards e a faixa preta
                 document.body.classList.add('modo-imagem');
-                
-                // Remove qualquer mensagem de resultado
-                const mensagemExistente = grade.querySelector('.nenhum-resultado');
-                if (mensagemExistente) {
-                    mensagemExistente.remove();
-                }
+                const msg = grade.querySelector('.nenhum-resultado');
+                if (msg) msg.remove();
             }
             
-            // 4) FUNÇÃO DE PESQUISA
             function pesquisarMateria() {
-                // Se o modo imagem estiver ativo, não faz pesquisa
-                if (modoImagemAtivo) {
-                    return;
-                }
-                
-                const termoPesquisa = document.getElementById('campoPesquisa').value.toLowerCase().trim();
-                
-                let resultadosEncontrados = 0;
-                
+                if (modoImagemAtivo) return;
+                const termo = document.getElementById('campoPesquisa').value.toLowerCase().trim();
+                let encontrados = 0;
                 cards.forEach(card => {
-                    const nomeMateria = card.getAttribute('data-materia');
-                    
-                    // Verifica se o termo de pesquisa está contido no nome da matéria
-                    if (termoPesquisa === '' || nomeMateria.includes(termoPesquisa)) {
+                    const nome = card.getAttribute('data-materia');
+                    if (termo === '' || nome.includes(termo)) {
                         card.classList.remove('hidden');
-                        resultadosEncontrados++;
+                        encontrados++;
                     } else {
                         card.classList.add('hidden');
                     }
                 });
-                
-                // Remove mensagem de "nenhum resultado" se existir
-                const mensagemExistente = grade.querySelector('.nenhum-resultado');
-                if (mensagemExistente) {
-                    mensagemExistente.remove();
-                }
-                
-                // Se não encontrou nenhum resultado, exibe mensagem
-                if (resultadosEncontrados === 0 && termoPesquisa !== '') {
+                const msg = grade.querySelector('.nenhum-resultado');
+                if (msg) msg.remove();
+                if (encontrados === 0 && termo !== '') {
                     const mensagem = document.createElement('div');
                     mensagem.className = 'nenhum-resultado';
-                    mensagem.textContent = `Nenhuma matéria encontrada para "${termoPesquisa}". Tente novamente!`;
+                    mensagem.textContent = `Nenhuma matéria encontrada para "${termo}". Tente novamente!`;
                     grade.appendChild(mensagem);
                 }
             }
             
-            // 5) FUNÇÃO PARA LIMPAR PESQUISA
             function limparPesquisa() {
-                const campoPesquisa = document.getElementById('campoPesquisa');
-                campoPesquisa.value = '';
+                const campo = document.getElementById('campoPesquisa');
+                campo.value = '';
                 if (!modoImagemAtivo) {
-                    cards.forEach(card => {
-                        card.classList.remove('hidden');
-                    });
-                    const mensagemExistente = grade.querySelector('.nenhum-resultado');
-                    if (mensagemExistente) {
-                        mensagemExistente.remove();
-                    }
+                    cards.forEach(card => card.classList.remove('hidden'));
+                    const msg = grade.querySelector('.nenhum-resultado');
+                    if (msg) msg.remove();
                 }
             }
             
-            // 6) CONFIGURAR EVENTOS DE PESQUISA
             const campoPesquisa = document.getElementById('campoPesquisa');
             const botaoPesquisa = document.getElementById('botaoPesquisa');
-            
-            // Pesquisar ao digitar no campo (com atraso para melhor experiência)
             let timeoutId;
-            campoPesquisa.addEventListener('input', function() {
+            campoPesquisa.addEventListener('input', () => {
                 clearTimeout(timeoutId);
-                timeoutId = setTimeout(pesquisarMateria, 300); // Aguarda 300ms após parar de digitar
+                timeoutId = setTimeout(pesquisarMateria, 300);
+            });
+            botaoPesquisa.addEventListener('click', () => pesquisarMateria());
+            campoPesquisa.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') { e.preventDefault(); pesquisarMateria(); }
             });
             
-            // Pesquisar ao clicar na lupa
-            botaoPesquisa.addEventListener('click', function() {
-                pesquisarMateria();
-            });
-            
-            // Pesquisar ao pressionar Enter no campo de pesquisa
-            campoPesquisa.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    pesquisarMateria();
-                }
-            });
-            
-            // 7) INTERAÇÃO "TUDO" e "IMAGEM" – ao clicar, adiciona/remove quadrado em volta
             const palavraTudo = document.getElementById('palavraTudo');
             const palavraImagem = document.getElementById('palavraImagem');
             
-            // Lógica para "tudo" - mostra todas as matérias e a faixa preta
-            palavraTudo.addEventListener('click', function() {
-                // Remove o highlight de "imagem" se estiver ativo
+            palavraTudo.addEventListener('click', () => {
                 palavraImagem.classList.remove('highlight-palavra');
-                // Adiciona highlight em "tudo"
-                this.classList.add('highlight-palavra');
-                // Mostra todas as matérias e a faixa preta
+                palavraTudo.classList.add('highlight-palavra');
                 mostrarTodasMaterias();
-                // Limpa o campo de pesquisa
                 limparPesquisa();
             });
             
-            // Lógica para "imagem" - deixa apenas as matérias e a faixa preta em branco
-            palavraImagem.addEventListener('click', function() {
-                // Remove o highlight de "tudo" se estiver ativo
+            palavraImagem.addEventListener('click', () => {
                 palavraTudo.classList.remove('highlight-palavra');
-                // Adiciona highlight em "imagem"
-                this.classList.add('highlight-palavra');
-                // Deixa as matérias e a faixa preta em branco
+                palavraImagem.classList.add('highlight-palavra');
                 materiasEFaixaEmBranco();
-                // Limpa o campo de pesquisa
                 limparPesquisa();
             });
             
-            // Estado inicial: "tudo" fica destacado e todas as matérias aparecem
             palavraTudo.classList.add('highlight-palavra');
             mostrarTodasMaterias();
-            
         })();
     </script>
 </body>
