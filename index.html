@@ -170,6 +170,14 @@
             background: linear-gradient(145deg, #fef7e8 0%, #faf0e0 100%);
         }
 
+        .card-materia.arte-card {
+            background: linear-gradient(145deg, #fff9f0 0%, #fff0e6 100%);
+        }
+
+        .card-materia.matematica-card {
+            background: linear-gradient(145deg, #eef4ff 0%, #e6edfc 100%);
+        }
+
         .imagem-container {
             position: relative;
             width: 100%;
@@ -185,7 +193,6 @@
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
             filter: drop-shadow(0 8px 18px rgba(0,0,0,0.2));
-            animation: flutuar 3s ease-in-out infinite;
         }
 
         .card-materia.com-imagem:hover .imagem-materia {
@@ -193,14 +200,21 @@
             filter: drop-shadow(0 12px 25px rgba(0,0,0,0.3));
         }
 
-        /* Animação de flutuação apenas para geografia */
+        /* Animações diferentes para cada matéria */
         .geografia-card .imagem-materia {
             animation: flutuar 3s ease-in-out infinite;
         }
 
-        /* Animação diferente para história */
         .historia-card .imagem-materia {
             animation: flutuarHistoria 3.5s ease-in-out infinite;
+        }
+
+        .arte-card .imagem-materia {
+            animation: flutuarArte 4s ease-in-out infinite;
+        }
+
+        .matematica-card .imagem-materia {
+            animation: flutuarMatematica 3.2s ease-in-out infinite;
         }
 
         @keyframes flutuar {
@@ -211,6 +225,17 @@
         @keyframes flutuarHistoria {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-4px) rotate(1deg); }
+        }
+
+        @keyframes flutuarArte {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            25% { transform: translateY(-3px) rotate(-2deg) scale(1.02); }
+            75% { transform: translateY(-3px) rotate(2deg) scale(1.02); }
+        }
+
+        @keyframes flutuarMatematica {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-4px) scale(1.02); }
         }
 
         .materia-texto {
@@ -330,8 +355,8 @@
             const materias = [
                 { nome: "geografia", temImagem: true, tipo: "geografia" },
                 { nome: "história", temImagem: true, tipo: "historia" },
-                { nome: "arte", temImagem: false },
-                { nome: "matemática", temImagem: false },
+                { nome: "arte", temImagem: true, tipo: "arte" },
+                { nome: "matemática", temImagem: true, tipo: "matematica" },
                 { nome: "língua inglesa", temImagem: false },
                 { nome: "educação física", temImagem: false },
                 { nome: "biologia", temImagem: false },
@@ -375,7 +400,7 @@
                 %3Ccircle cx='415' cy='48' r='2.5' fill='white' opacity='0.95'/%3E
             %3C/svg%3E`;
 
-            // IMAGEM PARA HISTÓRIA - Papiro antigo com pergaminho e elementos históricos
+            // IMAGEM PARA HISTÓRIA
             const imagemHistoriaUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E
                 %3Cdefs%3E
                     %3ClinearGradient id='papyrus' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
@@ -383,62 +408,94 @@
                         %3Cstop offset='50%25' stop-color='%23eed8b0'/%3E
                         %3Cstop offset='100%25' stop-color='%23e5ca96'/%3E
                     %3C/linearGradient%3E
-                    %3Cfilter id='shadow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E
-                        %3CfeGaussianBlur in='SourceAlpha' stdDeviation='3'/%3E
-                        %3CfeOffset dx='3' dy='4'/%3E
-                        %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E
-                    %3C/filter%3E
                 %3C/defs%3E
-                %3C!-- Fundo de pergaminho antigo --%3E
-                %3Crect x='30' y='30' width='340' height='340' fill='url(%23papyrus)' rx='15' ry='15' filter='url(%23shadow)'/%3E
-                %3C!-- Textura de papel antigo (manchas) --%3E
-                %3Ccircle cx='80' cy='90' r='25' fill='%23d4b87a' opacity='0.3'/%3E
-                %3Ccircle cx='310' cy='280' r='35' fill='%23c4a86a' opacity='0.25'/%3E
-                %3Ccircle cx='220' cy='350' r='20' fill='%23b89858' opacity='0.3'/%3E
-                %3Ccircle cx='120' cy='320' r='18' fill='%23c4a86a' opacity='0.25'/%3E
-                %3C!-- Rolo de pergaminho na parte superior --%3E
-                %3Crect x='150' y='45' width='100' height='25' fill='%23c9aa74' rx='8'/%3E
-                %3Crect x='140' y='48' width='120' height='8' fill='%23b8894a' rx='3'/%3E
-                %3C!-- Símbolos históricos --%3E
-                %3C!-- Pirâmide do Egito --%3E
+                %3Crect x='30' y='30' width='340' height='340' fill='url(%23papyrus)' rx='15' ry='15'/%3E
                 %3Cpolygon points='100,200 150,120 200,200' fill='%23cdb38c' stroke='%238b6942' stroke-width='2'/%3E
                 %3Crect x='125' y='200' width='50' height='40' fill='%23b58f5a'/%3E
-                %3C!-- Coluna grega --%3E
                 %3Crect x='270' y='160' width='18' height='100' fill='%23bc9a6c'/%3E
                 %3Ccircle cx='279' cy='155' r='12' fill='%23d4b67c'/%3E
-                %3Crect x='255' y='260' width='48' height='12' fill='%23ac8454'/%3E
-                %3C!-- Livro antigo aberto --%3E
-                %3Crect x='55' y='260' width='70' height='70' fill='%238b6942' rx='5'/%3E
-                %3Crect x='60' y='265' width='60' height='60' fill='%23f0e0b0' rx='3'/%3E
-                %3Cpath d='M90,270 L90,320' stroke='%238b6942' stroke-width='2'/%3E
-                %3Cpath d='M80,285 L100,285' stroke='%238b6942' stroke-width='1.5'/%3E
-                %3Cpath d='M80,300 L100,300' stroke='%238b6942' stroke-width='1.5'/%3E
-                %3C!-- Ânfora grega --%3E
-                %3Cpath d='M310,320 L320,270 L330,320 Z' fill='%23c9aa74' stroke='%238b6942' stroke-width='1.5'/%3E
-                %3Ccircle cx='320' cy='265' r='12' fill='%23b88d4a'/%3E
-                %3C!-- Coroa medieval --%3E
-                %3Cpolygon points='240,85 255,70 270,85 265,100 245,100' fill='%23e5c878' stroke='%23b87c3a' stroke-width='1.5'/%3E
-                %3Ccircle cx='255' cy='88' r='4' fill='%23ff4d4d'/%3E
-                %3Ccircle cx='245' cy='92' r='3' fill='%23ff6b6b'/%3E
-                %3Ccircle cx='265' cy='92' r='3' fill='%23ff6b6b'/%3E
-                %3C!-- Pena de escrever antiga --%3E
-                %3Cpath d='M180,70 L190,65 L188,78 L180,85 Z' fill='%236b4a2a'/%3E
-                %3Cpath d='M183,72 L193,67 L191,76 Z' fill='%238b623a'/%3E
-                %3C!-- Textos decorativos em grego antigo --%3E
-                %3Ctext x='170' y='210' font-size='14' fill='%238b6942' font-family='monospace'%3EΑΘΗΝΑ%3C/text%3E
-                %3Ctext x='280' y='125' font-size='12' fill='%238b6942'%3EROMA%3C/text%3E
-                %3Ctext x='70' y='235' font-size='11' fill='%238b6942'%3E𓂀%3C/text%3E
-                %3Ctext x='340' y='195' font-size='12' fill='%238b6942'%3E⚱️%3C/text%3E
-                %3Ctext x='190' y='370' font-size='10' fill='%238b6942' font-style='italic'%3EHISTORIA%3C/text%3E
-                %3C!-- Linhas de texto simulando escrita antiga --%3E
-                %3Cpath d='M185,295 L270,295' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
-                %3Cpath d='M185,310 L255,310' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
-                %3Cpath d='M185,325 L240,325' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
-                %3C!-- Efeito de envelhecimento nas bordas --%3E
-                %3Cpath d='M30,30 L60,35 L55,55 L35,60 Z' fill='%23b88d5a' opacity='0.4'/%3E
-                %3Cpath d='M370,30 L340,35 L345,55 L365,60 Z' fill='%23b88d5a' opacity='0.4'/%3E
-                %3Cpath d='M30,370 L60,365 L55,345 L35,340 Z' fill='%23b88d5a' opacity='0.4'/%3E
-                %3Cpath d='M370,370 L340,365 L345,345 L365,340 Z' fill='%23b88d5a' opacity='0.4'/%3E
+                %3Ctext x='170' y='210' font-size='14' fill='%238b6942'%3EΑΘΗΝΑ%3C/text%3E
+            %3C/svg%3E`;
+
+            // IMAGEM PARA ARTE - RESPiNGOS DE TINTA
+            const imagemArteRespigosUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E
+                %3Cdefs%3E
+                    %3ClinearGradient id='bgCanvas' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23fef9e8'/%3E
+                        %3Cstop offset='100%25' stop-color='%23f7efd6'/%3E
+                    %3C/linearGradient%3E
+                %3C/defs%3E
+                %3Crect x='20' y='20' width='360' height='360' fill='url(%23bgCanvas)' rx='12' ry='12' stroke='%23d4a373' stroke-width='3'/%3E
+                %3Cpath d='M95,135 L110,118 L128,122 L142,115 L158,125 L148,142 L135,152 L115,158 L98,150 L88,138 L95,135Z' fill='%23e74c3c' opacity='0.85'/%3E
+                %3Cpath d='M275,85 L295,72 L312,80 L330,75 L345,88 L335,105 L318,115 L298,118 L280,108 L270,95 L275,85Z' fill='%233498db' opacity='0.85'/%3E
+                %3Cpath d='M45,265 L62,252 L80,258 L95,248 L110,262 L98,278 L82,288 L62,285 L48,275 L45,265Z' fill='%23f1c40f' opacity='0.9'/%3E
+                %3Cpath d='M340,310 L355,298 L370,305 L385,295 L398,310 L385,325 L368,335 L350,330 L338,318 L340,310Z' fill='%232ecc71' opacity='0.85'/%3E
+                %3Ctext x='150' y='385' font-size='18' fill='%239b59b6' font-weight='bold'%3E🎨 SPLASH! 🎨%3C/text%3E
+            %3C/svg%3E`;
+
+            // IMAGEM PARA MATEMÁTICA - Símbolos matemáticos, fórmulas e elementos numéricos
+            const imagemMatematicaUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E
+                %3Cdefs%3E
+                    %3ClinearGradient id='mathBg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23eef4ff'/%3E
+                        %3Cstop offset='100%25' stop-color='%23e0e9fc'/%3E
+                    %3C/linearGradient%3E
+                    %3CradialGradient id='mathGlow' cx='50%25' cy='50%25' r='50%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.5'/%3E
+                        %3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/%3E
+                    %3C/radialGradient%3E
+                %3C/defs%3E
+                %3Crect x='20' y='20' width='360' height='360' fill='url(%23mathBg)' rx='12' ry='12' stroke='%233b82f6' stroke-width='3'/%3E
+                
+                %3C!-- Símbolos matemáticos principais --%3E
+                %3Ctext x='80' y='100' font-size='42' fill='%233b82f6' font-weight='bold'%3E∑%3C/text%3E
+                %3Ctext x='150' y='90' font-size='38' fill='%23e67e22'%3E∫%3C/text%3E
+                %3Ctext x='210' y='110' font-size='44' fill='%232ecc71'%3Eπ%3C/text%3E
+                %3Ctext x='280' y='85' font-size='40' fill='%23e74c3c'%3E∞%3C/text%3E
+                %3Ctext x='330' y='120' font-size='36' fill='%239b59b6'%3E√%3C/text%3E
+                
+                %3C!-- Fórmulas e expressões --%3E
+                %3Ctext x='45' y='180' font-size='20' fill='%232c3e50' font-family='monospace'%3EE = mc²%3C/text%3E
+                %3Ctext x='45' y='220' font-size='20' fill='%232c3e50' font-family='monospace'%3Ex = (-b ± √Δ)/2a%3C/text%3E
+                %3Ctext x='45' y='260' font-size='20' fill='%232c3e50' font-family='monospace'%3Ea² + b² = c²%3C/text%3E
+                %3Ctext x='45' y='300' font-size='20' fill='%232c3e50' font-family='monospace'%3Ef(x) = ∫ f'(x) dx%3C/text%3E
+                %3Ctext x='45' y='340' font-size='20' fill='%232c3e50' font-family='monospace'%3Elim┬(x→0) sin(x)/x = 1%3C/text%3E
+                
+                %3C!-- Números e operações decorativas --%3E
+                %3Ctext x='250' y='200' font-size='32' fill='%233b82f6'%3E+%3C/text%3E
+                %3Ctext x='290' y='200' font-size='32' fill='%23e74c3c'%3E-%3C/text%3E
+                %3Ctext x='330' y='200' font-size='32' fill='%232ecc71'%3E×%3C/text%3E
+                %3Ctext x='370' y='200' font-size='32' fill='%23f1c40f'%3E÷%3C/text%3E
+                
+                %3C!-- Números em círculos decorativos --%3E
+                %3Ccircle cx='265' cy='280' r='22' fill='%233b82f6' opacity='0.2'/%3E
+                %3Ctext x='255' y='292' font-size='28' fill='%233b82f6'%3E1%3C/text%3E
+                %3Ccircle cx='310' cy='280' r='22' fill='%23e74c3c' opacity='0.2'/%3E
+                %3Ctext x='300' y='292' font-size='28' fill='%23e74c3c'%3E2%3C/text%3E
+                %3Ccircle cx='355' cy='280' r='22' fill='%232ecc71' opacity='0.2'/%3E
+                %3Ctext x='345' y='292' font-size='28' fill='%232ecc71'%3E3%3C/text%3E
+                
+                %3C!-- Gráfico simples --%3E
+                %3Cpolyline points='220,340 250,320 280,330 310,310 340,320 370,300' fill='none' stroke='%233b82f6' stroke-width='2.5'/%3E
+                %3Cline x1='210' y1='350' x2='380' y2='350' stroke='%2394a3b8' stroke-width='1.5'/%3E
+                %3Cline x1='220' y1='300' x2='220' y2='350' stroke='%2394a3b8' stroke-width='1.5'/%3E
+                
+                %3C!-- Ângulos e formas geométricas --%3E
+                %3Crect x='55' y='330' width='45' height='45' fill='none' stroke='%23e67e22' stroke-width='2'/%3E
+                %3Ctext x='72' y='365' font-size='18' fill='%23e67e22'%3E□%3C/text%3E
+                
+                %3Ccircle cx='130' cy='350' r='22' fill='none' stroke='%239b59b6' stroke-width='2'/%3E
+                %3Ctext x='122' y='358' font-size='20' fill='%239b59b6'%3E○%3C/text%3E
+                
+                %3C!-- Equação de destaque --%3E
+                %3Crect x='260' y='45' width='110' height='35' fill='%233b82f6' opacity='0.15' rx='8'/%3E
+                %3Ctext x='270' y='72' font-size='22' fill='%233b82f6' font-weight='bold'%3EΔ = b² - 4ac%3C/text%3E
+                
+                %3C!-- Efeito de brilho --%3E
+                %3Ccircle cx='50' cy='50' r='40' fill='url(%23mathGlow)'/%3E
+                
+                %3C!-- Texto Matemática estilizado --%3E
+                %3Ctext x='135' y='395' font-size='14' fill='%23657c9a' font-weight='bold'%3E✧ MATEMÁTICA ✧%3C/text%3E
             %3C/svg%3E`;
 
             const grade = document.getElementById('gradeMaterias');
@@ -453,6 +510,10 @@
                             card.classList.add('geografia-card');
                         } else if (materia.tipo === "historia") {
                             card.classList.add('historia-card');
+                        } else if (materia.tipo === "arte") {
+                            card.classList.add('arte-card');
+                        } else if (materia.tipo === "matematica") {
+                            card.classList.add('matematica-card');
                         }
                     }
                     
@@ -469,6 +530,12 @@
                         } else if (materia.tipo === "historia") {
                             img.src = imagemHistoriaUrl;
                             img.alt = "Pergaminho histórico";
+                        } else if (materia.tipo === "arte") {
+                            img.src = imagemArteRespigosUrl;
+                            img.alt = "Arte com respingos de tinta";
+                        } else if (materia.tipo === "matematica") {
+                            img.src = imagemMatematicaUrl;
+                            img.alt = "Símbolos matemáticos";
                         }
                         img.className = "imagem-materia";
                         
