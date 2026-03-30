@@ -157,38 +157,60 @@
             gap: 0.8rem;
         }
 
-        .card-materia.geografia-card {
+        /* Estilo para cards com imagem */
+        .card-materia.com-imagem {
             padding: 1rem 0.5rem;
+        }
+
+        .card-materia.geografia-card {
             background: linear-gradient(145deg, #f5fafd 0%, #eef3f8 100%);
         }
 
-        .globo-container {
+        .card-materia.historia-card {
+            background: linear-gradient(145deg, #fef7e8 0%, #faf0e0 100%);
+        }
+
+        .imagem-container {
             position: relative;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 800px;
         }
 
-        .globo-3d {
+        .imagem-materia {
             width: 85%;
             max-width: 180px;
             height: auto;
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.3));
+            filter: drop-shadow(0 8px 18px rgba(0,0,0,0.2));
             animation: flutuar 3s ease-in-out infinite;
         }
 
-        .card-materia.geografia-card:hover .globo-3d {
-            transform: scale(1.08) rotate(5deg);
-            filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+        .card-materia.com-imagem:hover .imagem-materia {
+            transform: scale(1.08) rotate(3deg);
+            filter: drop-shadow(0 12px 25px rgba(0,0,0,0.3));
+        }
+
+        /* Animação de flutuação apenas para geografia */
+        .geografia-card .imagem-materia {
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+        /* Animação diferente para história */
+        .historia-card .imagem-materia {
+            animation: flutuarHistoria 3.5s ease-in-out infinite;
         }
 
         @keyframes flutuar {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
+        }
+
+        @keyframes flutuarHistoria {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-4px) rotate(1deg); }
         }
 
         .materia-texto {
@@ -261,7 +283,7 @@
             .materias-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
-            .globo-3d {
+            .imagem-materia {
                 width: 75%;
             }
         }
@@ -270,7 +292,7 @@
             .materias-grid {
                 grid-template-columns: 1fr;
             }
-            .globo-3d {
+            .imagem-materia {
                 width: 65%;
             }
         }
@@ -306,8 +328,8 @@
     <script>
         (function() {
             const materias = [
-                { nome: "geografia", temImagem: true },
-                { nome: "história", temImagem: false },
+                { nome: "geografia", temImagem: true, tipo: "geografia" },
+                { nome: "história", temImagem: true, tipo: "historia" },
                 { nome: "arte", temImagem: false },
                 { nome: "matemática", temImagem: false },
                 { nome: "língua inglesa", temImagem: false },
@@ -320,7 +342,7 @@
             let cards = [];
             let modoImagemAtivo = false;
 
-            // GLOBO TERRESTRE ULTRA REALISTA COM VERDES RICOS E DETALHADOS
+            // GLOBO TERRESTRE PREMIUM
             const globoPremiumUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 540'%3E
                 %3Cdefs%3E
                     %3CradialGradient id='oceanGrad' cx='40%25' cy='35%25' r='65%25'%3E
@@ -334,123 +356,89 @@
                         %3Cstop offset='60%25' stop-color='%23ffffff' stop-opacity='0.2'/%3E
                         %3Cstop offset='100%25' stop-color='%23ffffff' stop-opacity='0'/%3E
                     %3C/radialGradient%3E
-                    %3CradialGradient id='shadow' cx='70%25' cy='75%25' r='55%25'%3E
-                        %3Cstop offset='0%25' stop-color='%23000000' stop-opacity='0.4'/%3E
-                        %3Cstop offset='100%25' stop-color='%23000000' stop-opacity='0'/%3E
-                    %3C/radialGradient%3E
                     %3ClinearGradient id='forestGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
                         %3Cstop offset='0%25' stop-color='%233d8c40'/%3E
                         %3Cstop offset='50%25' stop-color='%2355b34c'/%3E
                         %3Cstop offset='100%25' stop-color='%233d8c40'/%3E
                     %3C/linearGradient%3E
-                    %3ClinearGradient id='savannaGrad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
-                        %3Cstop offset='0%25' stop-color='%2374b95c'/%3E
-                        %3Cstop offset='100%25' stop-color='%23589a45'/%3E
-                    %3C/linearGradient%3E
-                    %3Cfilter id='softGlow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E
-                        %3CfeGaussianBlur in='SourceAlpha' stdDeviation='2'/%3E
-                        %3CfeMerge%3E%3CfeMergeNode in='offsetblur' /%3E%3CfeMergeNode in='SourceGraphic' /%3E%3C/feMerge%3E
-                    %3C/filter%3E
                 %3C/defs%3E
-                
-                %3C!-- Base do globo com gradiente oceânico profundo --%3E
                 %3Ccircle cx='270' cy='270' r='255' fill='url(%23oceanGrad)' stroke='%232a5a7a' stroke-width='2.5'/%3E
                 %3Ccircle cx='270' cy='270' r='252' fill='url(%23oceanGrad)'/%3E
-                
-                %3C!-- AMÉRICAS - com tons verdes variados e texturas --%3E
-                %3C!-- América do Norte e Central com floresta densa --%3E
                 %3Cpath d='M135,160 L162,142 L190,148 L212,165 L226,188 L222,215 L204,238 L178,248 L150,242 L130,224 L118,198 L122,170 L135,160Z' fill='url(%23forestGrad)' stroke='%2320643a' stroke-width='1.5'/%3E
-                %3Cpath d='M185,245 L202,236 L220,245 L232,262 L224,285 L204,298 L182,293 L166,276 L162,256 L174,245 L185,245Z' fill='%2358b04c' stroke='%2320643a' stroke-width='1.2'/%3E
-                %3C!-- América do Sul com floresta amazônica e cerrado --%3E
                 %3Cpath d='M145,300 L168,288 L192,296 L210,312 L215,340 L198,362 L172,370 L148,360 L130,338 L125,315 L135,300 L145,300Z' fill='%234fa845' stroke='%2320643a' stroke-width='1.5'/%3E
-                %3Cpath d='M195,315 L215,305 L235,315 L248,335 L238,358 L215,370 L192,365 L175,345 L170,325 L185,312 L195,315Z' fill='%236bb84e' stroke='%2320643a' stroke-width='1.3'/%3E
-                %3C!-- Cordilheira dos Andes com tom mais seco --%3E
-                %3Cpath d='M202,332 L218,324 L235,332 L245,350 L235,368 L218,376 L200,370 L188,350 L192,335 L202,332Z' fill='%238cc97a' stroke='%233a7a2e' stroke-width='1.2'/%3E
-                
-                %3C!-- EUROPA - com vegetação temperada --%3E
                 %3Cpath d='M385,128 L410,120 L435,128 L455,148 L468,175 L458,200 L438,215 L412,218 L388,208 L368,188 L360,162 L370,138 L385,128Z' fill='%2366bb54' stroke='%2320643a' stroke-width='1.5'/%3E
-                
-                %3C!-- ÁSIA - continente mais verde e variado --%3E
                 %3Cpath d='M435,160 L462,150 L490,160 L512,182 L526,212 L514,238 L490,252 L465,252 L440,240 L420,218 L412,192 L425,168 L435,160Z' fill='%2365b84a' stroke='%2320643a' stroke-width='1.5'/%3E
-                %3Cpath d='M505,215 L532,205 L558,218 L578,240 L570,268 L548,285 L520,285 L498,270 L485,245 L497,222 L505,215Z' fill='%2372c15a' stroke='%2320643a' stroke-width='1.5'/%3E
-                %3Cpath d='M580,248 L608,238 L632,248 L650,268 L642,292 L618,308 L592,305 L568,288 L558,262 L572,248 L580,248Z' fill='%236bb84e' stroke='%2320643a' stroke-width='1.3'/%3E
-                %3C!-- Sudeste Asiático com floresta tropical --%3E
-                %3Cpath d='M465,215 L485,206 L505,215 L518,238 L508,260 L485,272 L462,267 L448,245 L455,222 L465,215Z' fill='%2355b04a' stroke='%2320643a' stroke-width='1.2'/%3E
-                
-                %3C!-- ÁFRICA - com savanas e florestas equatoriais --%3E
-                %3Cpath d='M320,198 L348,190 L372,200 L392,222 L387,250 L368,270 L342,272 L318,260 L300,236 L298,210 L310,198 L320,198Z' fill='url(%23savannaGrad)' stroke='%2320643a' stroke-width='1.5'/%3E
-                %3Cpath d='M342,235 L362,227 L382,237 L395,258 L382,278 L360,285 L340,277 L325,258 L330,238 L342,235Z' fill='%237ac864' stroke='%2320643a' stroke-width='1.3'/%3E
-                
-                %3C!-- OCEANIA (Austrália) com vegetação costeira --%3E
-                %3Cpath d='M590,288 L615,278 L642,290 L658,312 L648,336 L620,345 L592,335 L578,312 L582,290 L590,288Z' fill='%2385cd70' stroke='%2320643a' stroke-width='1.4'/%3E
-                
-                %3C!-- ÁFRICA DO SUL com vegetação diversificada --%3E
-                %3Cpath d='M325,285 L348,278 L368,288 L380,308 L370,330 L348,342 L325,338 L310,318 L308,295 L318,285 L325,285Z' fill='%2385cd70' stroke='%2320643a' stroke-width='1.3'/%3E
-                
-                %3C!-- Península Arábica (deserto) com tom mais claro --%3E
-                %3Cpath d='M470,182 L495,175 L515,188 L525,210 L510,228 L488,232 L468,220 L458,200 L465,182 L470,182Z' fill='%23b5d38c' stroke='%234a7a2e' stroke-width='1.2'/%3E
-                
-                %3C!-- Detalhes de florestas e texturas verdes adicionais --%3E
-                %3Ccircle cx='210' cy='198' r='12' fill='%2372c15a' opacity='0.5'/%3E
-                %3Ccircle cx='352' cy='168' r='10' fill='%2366bb54' opacity='0.5'/%3E
-                %3Ccircle cx='295' cy='225' r='14' fill='%2385cd70' opacity='0.45'/%3E
-                %3Ccircle cx='520' cy='190' r='11' fill='%237ac864' opacity='0.5'/%3E
-                %3Ccircle cx='385' cy='185' r='9' fill='%2366bb54' opacity='0.5'/%3E
-                
-                %3C!-- Cordilheira do Himalaia (relevo) --%3E
-                %3Cpath d='M480,175 L495,168 L510,176 L512,188 L498,196 L482,190 L476,180 L480,175Z' fill='%239ad87e' stroke='%235a9a3e' stroke-width='1'/%3E
-                
-                %3C!-- Calotas polares com neve e gelo --%3E
-                %3Cpath d='M210,45 L265,32 L315,40 L330,55 L310,70 L265,75 L215,70 L192,58 L198,48 L210,45Z' fill='%23f0f8ff' opacity='0.85' stroke='%23b8d0e0' stroke-width='1.2'/%3E
-                %3Cpath d='M190,465 L235,455 L280,460 L312,472 L290,485 L245,490 L205,485 L175,472 L190,465Z' fill='%23f0f8ff' opacity='0.85' stroke='%23b8d0e0' stroke-width='1.2'/%3E
-                
-                %3C!-- Linhas de longitude e latitude elegantes --%3E
-                %3Ccircle cx='270' cy='270' r='195' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' stroke-dasharray='8,5'/%3E
-                %3Ccircle cx='270' cy='270' r='155' fill='none' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
-                %3Ccircle cx='270' cy='270' r='115' fill='none' stroke='rgba(255,255,255,0.22)' stroke-width='0.8'/%3E
-                %3Cpath d='M270,75 L270,465' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
-                %3Cpath d='M75,270 L465,270' stroke='rgba(255,255,255,0.25)' stroke-width='1' stroke-dasharray='6,4'/%3E
-                
-                %3C!-- Efeito de brilho e reflexo premium --%3E
+                %3Cpath d='M320,198 L348,190 L372,200 L392,222 L387,250 L368,270 L342,272 L318,260 L300,236 L298,210 L310,198 L320,198Z' fill='%2374b95c' stroke='%2320643a' stroke-width='1.5'/%3E
                 %3Ccircle cx='200' cy='190' r='80' fill='url(%23gloss)'/%3E
-                %3Ccircle cx='340' cy='350' r='65' fill='url(%23shadow)'/%3E
-                
-                %3C!-- Estrelas cintilantes no espaço --%3E
                 %3Ccircle cx='48' cy='62' r='2.5' fill='white' opacity='0.95'/%3E
                 %3Ccircle cx='85' cy='38' r='2' fill='white' opacity='0.9'/%3E
-                %3Ccircle cx='125' cy='55' r='2.2' fill='white' opacity='0.92'/%3E
                 %3Ccircle cx='415' cy='48' r='2.5' fill='white' opacity='0.95'/%3E
-                %3Ccircle cx='458' cy='75' r='2' fill='white' opacity='0.9'/%3E
-                %3Ccircle cx='385' cy='92' r='2.2' fill='white' opacity='0.92'/%3E
-                %3Ccircle cx='60' cy='455' r='2.2' fill='white' opacity='0.92'/%3E
-                %3Ccircle cx='105' cy='482' r='2.5' fill='white' opacity='0.95'/%3E
-                %3Ccircle cx='455' cy='468' r='2' fill='white' opacity='0.9'/%3E
-                %3Ccircle cx='498' cy='438' r='2.2' fill='white' opacity='0.92'/%3E
-                %3Ccircle cx='22' cy='165' r='1.8' fill='white' opacity='0.85'/%3E
-                %3Ccircle cx='508' cy='135' r='2' fill='white' opacity='0.9'/%3E
-                %3Ccircle cx='145' cy='505' r='2' fill='white' opacity='0.88'/%3E
-                %3Ccircle cx='385' cy='510' r='1.8' fill='white' opacity='0.85'/%3E
-                
-                %3C!-- Nuvens atmosféricas suaves --%3E
-                %3Ccircle cx='305' cy='115' r='18' fill='white' opacity='0.25'/%3E
-                %3Ccircle cx='328' cy='105' r='14' fill='white' opacity='0.22'/%3E
-                %3Ccircle cx='282' cy='125' r='12' fill='white' opacity='0.2'/%3E
-                %3Ccircle cx='135' cy='395' r='20' fill='white' opacity='0.25'/%3E
-                %3Ccircle cx='165' cy='382' r='14' fill='white' opacity='0.22'/%3E
-                %3Ccircle cx='105' cy='408' r='12' fill='white' opacity='0.2'/%3E
-                %3Ccircle cx='455' cy='345' r='16' fill='white' opacity='0.23'/%3E
-                %3Ccircle cx='430' cy='332' r='12' fill='white' opacity='0.2'/%3E
-                %3Ccircle cx='475' cy='360' r='10' fill='white' opacity='0.18'/%3E
-                
-                %3C!-- Ondas oceânicas decorativas --%3E
-                %3Cpath d='M85,185 L105,182 L125,188 L145,185' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E
-                %3Cpath d='M465,410 L485,408 L505,412 L525,410' stroke='rgba(255,255,255,0.3)' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E
-                %3Cpath d='M335,445 L355,442 L375,447 L395,445' stroke='rgba(255,255,255,0.25)' stroke-width='1' fill='none' stroke-linecap='round'/%3E
-                %3Cpath d='M195,25 L215,22 L235,27 L255,25' stroke='rgba(255,255,255,0.25)' stroke-width='1' fill='none' stroke-linecap='round'/%3E
-                
-                %3C!-- Anel de atmosfera sutil --%3E
-                %3Ccircle cx='270' cy='270' r='258' fill='none' stroke='rgba(80,160,220,0.35)' stroke-width='2.5'/%3E
-                %3Ccircle cx='270' cy='270' r='263' fill='none' stroke='rgba(120,180,240,0.2)' stroke-width='1.8'/%3E
+            %3C/svg%3E`;
+
+            // IMAGEM PARA HISTÓRIA - Papiro antigo com pergaminho e elementos históricos
+            const imagemHistoriaUrl = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E
+                %3Cdefs%3E
+                    %3ClinearGradient id='papyrus' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E
+                        %3Cstop offset='0%25' stop-color='%23f7e5c2'/%3E
+                        %3Cstop offset='50%25' stop-color='%23eed8b0'/%3E
+                        %3Cstop offset='100%25' stop-color='%23e5ca96'/%3E
+                    %3C/linearGradient%3E
+                    %3Cfilter id='shadow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E
+                        %3CfeGaussianBlur in='SourceAlpha' stdDeviation='3'/%3E
+                        %3CfeOffset dx='3' dy='4'/%3E
+                        %3CfeMerge%3E%3CfeMergeNode/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E
+                    %3C/filter%3E
+                %3C/defs%3E
+                %3C!-- Fundo de pergaminho antigo --%3E
+                %3Crect x='30' y='30' width='340' height='340' fill='url(%23papyrus)' rx='15' ry='15' filter='url(%23shadow)'/%3E
+                %3C!-- Textura de papel antigo (manchas) --%3E
+                %3Ccircle cx='80' cy='90' r='25' fill='%23d4b87a' opacity='0.3'/%3E
+                %3Ccircle cx='310' cy='280' r='35' fill='%23c4a86a' opacity='0.25'/%3E
+                %3Ccircle cx='220' cy='350' r='20' fill='%23b89858' opacity='0.3'/%3E
+                %3Ccircle cx='120' cy='320' r='18' fill='%23c4a86a' opacity='0.25'/%3E
+                %3C!-- Rolo de pergaminho na parte superior --%3E
+                %3Crect x='150' y='45' width='100' height='25' fill='%23c9aa74' rx='8'/%3E
+                %3Crect x='140' y='48' width='120' height='8' fill='%23b8894a' rx='3'/%3E
+                %3C!-- Símbolos históricos --%3E
+                %3C!-- Pirâmide do Egito --%3E
+                %3Cpolygon points='100,200 150,120 200,200' fill='%23cdb38c' stroke='%238b6942' stroke-width='2'/%3E
+                %3Crect x='125' y='200' width='50' height='40' fill='%23b58f5a'/%3E
+                %3C!-- Coluna grega --%3E
+                %3Crect x='270' y='160' width='18' height='100' fill='%23bc9a6c'/%3E
+                %3Ccircle cx='279' cy='155' r='12' fill='%23d4b67c'/%3E
+                %3Crect x='255' y='260' width='48' height='12' fill='%23ac8454'/%3E
+                %3C!-- Livro antigo aberto --%3E
+                %3Crect x='55' y='260' width='70' height='70' fill='%238b6942' rx='5'/%3E
+                %3Crect x='60' y='265' width='60' height='60' fill='%23f0e0b0' rx='3'/%3E
+                %3Cpath d='M90,270 L90,320' stroke='%238b6942' stroke-width='2'/%3E
+                %3Cpath d='M80,285 L100,285' stroke='%238b6942' stroke-width='1.5'/%3E
+                %3Cpath d='M80,300 L100,300' stroke='%238b6942' stroke-width='1.5'/%3E
+                %3C!-- Ânfora grega --%3E
+                %3Cpath d='M310,320 L320,270 L330,320 Z' fill='%23c9aa74' stroke='%238b6942' stroke-width='1.5'/%3E
+                %3Ccircle cx='320' cy='265' r='12' fill='%23b88d4a'/%3E
+                %3C!-- Coroa medieval --%3E
+                %3Cpolygon points='240,85 255,70 270,85 265,100 245,100' fill='%23e5c878' stroke='%23b87c3a' stroke-width='1.5'/%3E
+                %3Ccircle cx='255' cy='88' r='4' fill='%23ff4d4d'/%3E
+                %3Ccircle cx='245' cy='92' r='3' fill='%23ff6b6b'/%3E
+                %3Ccircle cx='265' cy='92' r='3' fill='%23ff6b6b'/%3E
+                %3C!-- Pena de escrever antiga --%3E
+                %3Cpath d='M180,70 L190,65 L188,78 L180,85 Z' fill='%236b4a2a'/%3E
+                %3Cpath d='M183,72 L193,67 L191,76 Z' fill='%238b623a'/%3E
+                %3C!-- Textos decorativos em grego antigo --%3E
+                %3Ctext x='170' y='210' font-size='14' fill='%238b6942' font-family='monospace'%3EΑΘΗΝΑ%3C/text%3E
+                %3Ctext x='280' y='125' font-size='12' fill='%238b6942'%3EROMA%3C/text%3E
+                %3Ctext x='70' y='235' font-size='11' fill='%238b6942'%3E𓂀%3C/text%3E
+                %3Ctext x='340' y='195' font-size='12' fill='%238b6942'%3E⚱️%3C/text%3E
+                %3Ctext x='190' y='370' font-size='10' fill='%238b6942' font-style='italic'%3EHISTORIA%3C/text%3E
+                %3C!-- Linhas de texto simulando escrita antiga --%3E
+                %3Cpath d='M185,295 L270,295' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
+                %3Cpath d='M185,310 L255,310' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
+                %3Cpath d='M185,325 L240,325' stroke='%238b6942' stroke-width='1' stroke-dasharray='4,3'/%3E
+                %3C!-- Efeito de envelhecimento nas bordas --%3E
+                %3Cpath d='M30,30 L60,35 L55,55 L35,60 Z' fill='%23b88d5a' opacity='0.4'/%3E
+                %3Cpath d='M370,30 L340,35 L345,55 L365,60 Z' fill='%23b88d5a' opacity='0.4'/%3E
+                %3Cpath d='M30,370 L60,365 L55,345 L35,340 Z' fill='%23b88d5a' opacity='0.4'/%3E
+                %3Cpath d='M370,370 L340,365 L345,345 L365,340 Z' fill='%23b88d5a' opacity='0.4'/%3E
             %3C/svg%3E`;
 
             const grade = document.getElementById('gradeMaterias');
@@ -458,23 +446,35 @@
                 materias.forEach(materia => {
                     const card = document.createElement('div');
                     card.className = 'card-materia';
-                    if (materia.nome === "geografia") {
-                        card.classList.add('geografia-card');
+                    
+                    if (materia.temImagem) {
+                        card.classList.add('com-imagem');
+                        if (materia.tipo === "geografia") {
+                            card.classList.add('geografia-card');
+                        } else if (materia.tipo === "historia") {
+                            card.classList.add('historia-card');
+                        }
                     }
+                    
                     card.setAttribute('data-materia', materia.nome.toLowerCase());
 
-                    if (materia.nome === "geografia") {
+                    if (materia.temImagem) {
                         const container = document.createElement('div');
-                        container.className = 'globo-container';
+                        container.className = 'imagem-container';
                         
                         const img = document.createElement('img');
-                        img.src = globoPremiumUrl;
-                        img.alt = "Globo terrestre premium";
-                        img.className = "globo-3d";
+                        if (materia.tipo === "geografia") {
+                            img.src = globoPremiumUrl;
+                            img.alt = "Globo terrestre";
+                        } else if (materia.tipo === "historia") {
+                            img.src = imagemHistoriaUrl;
+                            img.alt = "Pergaminho histórico";
+                        }
+                        img.className = "imagem-materia";
                         
                         const texto = document.createElement('span');
                         texto.className = "materia-texto";
-                        texto.textContent = "geografia";
+                        texto.textContent = materia.nome;
                         
                         container.appendChild(img);
                         card.appendChild(container);
